@@ -29,7 +29,7 @@ const TicketRouter = require("./routes/ticket");
 const { Server } = require("socket.io");
 
 const app = express();
-const allowedOrigins = ["https://not-tazkarti.vercel.app"];
+const allowedOrigins = ["https://not-tazkarti.vercel.app", "*"];
 
 app.use(
   cors({
