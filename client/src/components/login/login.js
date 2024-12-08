@@ -24,7 +24,10 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, formData, {
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true, // Include this if your backend uses cookies for authentication
       });
 
       if (response.status === 200) {
