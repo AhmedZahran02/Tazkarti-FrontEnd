@@ -5,7 +5,7 @@ import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 import { useEffect } from 'react';
 
-const baseUrl = 'http://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
+const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
 
 const CreateStadiumEvent = () => {
   const navigate = useNavigate();

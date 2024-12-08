@@ -5,7 +5,7 @@ import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 import axios from 'axios';
 
-const baseUrl = 'http://not-tazkarti-back-production.up.railway.app'; // Adjust to your backend URL
+const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust to your backend URL
 
 const EditMatchEvent = ({ matchId }) => {
   const navigate = useNavigate();

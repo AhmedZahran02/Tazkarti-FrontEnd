@@ -6,7 +6,7 @@ import '../../styles/reservation_card_list.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const baseUrl = 'http://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL for your backend
+const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL for your backend
 
 const ReservationList = () => {
   const { authData } = useContext(AuthContext);
