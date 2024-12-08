@@ -75,7 +75,6 @@ const SignUp = () => {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`, // Include the token in the request header
-
           },
         });
         if (!response.ok) {
