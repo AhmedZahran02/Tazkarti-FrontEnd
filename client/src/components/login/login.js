@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../../styles/login.css';
 import { AuthContext } from '../context/auth_provider';
 
-const baseUrl = 'http://localhost:8080';
+const baseUrl = 'https://not-tazkarti-back.vercel.app/';
 
 const Login = () => {
   const [formData, setFormData] = useState({ credential: '', password: '' }); // Credential can be email or username
