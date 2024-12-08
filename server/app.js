@@ -29,13 +29,7 @@ const TicketRouter = require("./routes/ticket");
 const { Server } = require("socket.io");
 
 const app = express();
-app.use(
-  cors({
-    origin: "*", // Adjust this to the URL of your frontend
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Specify allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
-  })
-);
+app.use(cors());
 
 const DB = require("./utils/db");
 
