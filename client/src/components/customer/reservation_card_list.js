@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import '../../styles/reservation_card_list.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { io } from 'socket.io-client'; // Import socket.io-client
 
 const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL for your backend
 
@@ -15,10 +16,15 @@ const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [socket, setSocket] = useState(null);
+
   const token = authData.token; // Get token from context
 
   // Fetch reservations for the logged-in user
   useEffect(() => {
+    const socket = io(baseUrl);
+    setSocket(socket);
+
     const fetchReservations = async () => {
       try {
         if (!authData.user || authData.user.userType !== 'fan') {
@@ -50,6 +56,10 @@ const ReservationList = () => {
     };
 
     fetchReservations();
+
+    return () => {
+      socket.disconnect();
+    };
   }, [authData.user, authData.token, navigate]);
 
   const handleCancel = async (tickeId, reservationId) => {
@@ -61,6 +71,9 @@ const ReservationList = () => {
       });
 
       if (response.status === 200) {
+        if (socket) {
+          socket.emit('reserve-seat', 'message'); // Emit the reservation event to the server
+        }
         setReservations((prevReservations) =>
           prevReservations.filter((res) => res._id !== tickeId)
         );
