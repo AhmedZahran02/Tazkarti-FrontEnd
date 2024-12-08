@@ -6,7 +6,7 @@ import '../../styles/match_details.css'; // Add styles for the component
 import axios from 'axios';
 import { io } from 'socket.io-client'; // Import socket.io-client
 
-const baseUrl = 'http://localhost:8080'; // Adjust the base URL to your backend
+const baseUrl = 'http://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
 
 const MatchDetails = () => {
   const { id } = useParams(); // Extract match ID from the URL

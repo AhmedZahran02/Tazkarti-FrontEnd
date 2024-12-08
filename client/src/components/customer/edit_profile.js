@@ -3,7 +3,7 @@ import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 import '../../styles/edit_profile.css';
 import { useNavigate } from 'react-router-dom';
-const baseUrl = 'http://localhost:8080';
+const baseUrl = 'http://not-tazkarti-back-production.up.railway.app';
 
 const EditProfile = () => {
   const { authData, saveAuthData } = useContext(AuthContext);

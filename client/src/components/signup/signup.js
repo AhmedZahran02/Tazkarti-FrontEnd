@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/signup.css';
 import { AuthContext } from '../context/auth_provider';
 
-const baseUrl = 'http://localhost:8080';
+const baseUrl = 'http://not-tazkarti-back-production.up.railway.app';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({

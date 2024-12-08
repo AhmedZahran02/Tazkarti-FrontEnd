@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Match from './match';
 import axios from 'axios';
-const baseUrl = 'http://localhost:8080'; // Adjust the base URL to your backend
+const baseUrl = 'http://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
 
 const Matches = () => {
   const [matches, setMatches] = useState([]);
