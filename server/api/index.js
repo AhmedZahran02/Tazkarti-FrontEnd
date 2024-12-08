@@ -1,14 +1,6 @@
 require("dotenv").config();
 require("./utils/passport_setup");
 
-require("./models/match");
-require("./models/referee");
-require("./models/seats");
-require("./models/stadium");
-require("./models/team");
-require("./models/user");
-require("./models/referee");
-require("./models/Ticket");
 const http = require("http");
 
 const cookieParser = require("cookie-parser");
