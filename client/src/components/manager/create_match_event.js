@@ -31,12 +31,18 @@ const CreateMatchEvent = () => {
   const [loadingReferees, setLoadingReferees] = useState(false);
   const [loadingLinesmen, setLoadingLinesmen] = useState(false);
   const [error, setError] = useState(null);
+  const token = authData.token; // Get token from context
 
   // Fetch teams, venues, and referees from the database
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/team/get-all`);
+        const response = await axios.get(`${baseUrl}/team/get-all`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        });
         setTeams(response.data.teams);
         setLoadingTeams(false);
       } catch (err) {
@@ -47,7 +53,12 @@ const CreateMatchEvent = () => {
 
     const fetchVenues = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/stadium/get-all`);
+        const response = await axios.get(`${baseUrl}/stadium/get-all`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        });
         setVenues(response.data.stadiums);
         setLoadingVenues(false);
       } catch (err) {
@@ -59,7 +70,13 @@ const CreateMatchEvent = () => {
     const fetchReferees = async () => {
       try {
         const response = await axios.get(
-          `${baseUrl}/referee/get-main-referees`
+          `${baseUrl}/referee/get-main-referees`,
+          {
+            headers: {
+              'Content-Type': 'application/json', // Set content type for the request
+              Authorization: `Bearer ${token}`, // Include the token in the request header
+            },
+          }
         );
         setReferees(response.data.referees); // Main referees
         setLoadingReferees(false);
@@ -71,7 +88,12 @@ const CreateMatchEvent = () => {
 
     const fetchLinesmen = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/referee/get-linesmen`);
+        const response = await axios.get(`${baseUrl}/referee/get-linesmen`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        });
         setLinesmen(response.data.referees); // Linesmen
         setLoadingLinesmen(false);
       } catch (err) {
@@ -98,6 +120,7 @@ const CreateMatchEvent = () => {
       const response = await axios.post(`${baseUrl}/matches/create`, formData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
       });
 

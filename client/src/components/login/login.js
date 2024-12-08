@@ -11,6 +11,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { authData, saveAuthData } = useContext(AuthContext);
+  const token = authData.token; // Get token from context
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +27,7 @@ const Login = () => {
       const response = await axios.post(`${baseUrl}/auth/login`, formData, {
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
         withCredentials: true, // Include this if your backend uses cookies for authentication
       });

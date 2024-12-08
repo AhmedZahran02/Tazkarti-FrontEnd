@@ -34,12 +34,18 @@ const EditMatchEvent = ({ matchId }) => {
   const [loadingVenues, setLoadingVenues] = useState(false);
   const [loadingReferees, setLoadingReferees] = useState(false);
   const [error, setError] = useState(null);
+  const token = authData.token; // Get token from context
 
   // Fetch match details, referees, teams, and venues from the database
   useEffect(() => {
     const fetchTeams = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/team/get-all`);
+        const response = await axios.get(`${baseUrl}/team/get-all`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        });
         setTeams(response.data.teams);
         setLoadingTeams(false);
       } catch (err) {
@@ -50,7 +56,12 @@ const EditMatchEvent = ({ matchId }) => {
 
     const fetchVenues = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/stadium/get-all`);
+        const response = await axios.get(`${baseUrl}/stadium/get-all`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        });
         setVenues(response.data.stadiums);
         setLoadingVenues(false);
       } catch (err) {
@@ -62,7 +73,13 @@ const EditMatchEvent = ({ matchId }) => {
     const fetchReferees = async () => {
       try {
         const response = await axios.get(
-          `${baseUrl}/referee/get-main-referees`
+          `${baseUrl}/referee/get-main-referees`,
+          {
+            headers: {
+              'Content-Type': 'application/json', // Set content type for the request
+              Authorization: `Bearer ${token}`, // Include the token in the request header
+            },
+          }
         );
         setReferees(response.data.referees); // Main referees
         setLoadingReferees(false);
@@ -74,7 +91,12 @@ const EditMatchEvent = ({ matchId }) => {
 
     const fetchLinesmen = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/referee/get-linesmen`);
+        const response = await axios.get(`${baseUrl}/referee/get-linesmen`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        });
         setLinesmen(response.data.referees); // Linesmen
         setLoadingLinesmen(false);
       } catch (err) {
@@ -110,6 +132,7 @@ const EditMatchEvent = ({ matchId }) => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
         body: JSON.stringify(formData),
       });

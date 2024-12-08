@@ -13,6 +13,7 @@ const AddTeam = () => {
   const [error, setError] = useState(''); // State to store error messages
   const [successMessage, setSuccessMessage] = useState(''); // State to store success messages
   const navigate = useNavigate(); // To navigate to a different page after successful submission
+  const token = authData.token; // Get token from context
 
   const handleChange = (e) => {
     setTeamName(e.target.value); // Update teamName state with the input value
@@ -37,6 +38,7 @@ const AddTeam = () => {
         {
           headers: {
             'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
           },
         }
       );

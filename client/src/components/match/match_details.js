@@ -35,11 +35,17 @@ const MatchDetails = () => {
     firstLinesman,
     secondLinesman,
   } = location.state || {};
+  const token = authData.token; // Get token from context
 
   useEffect(() => {
     const fetchSeatingLayout = async () => {
       try {
-        const response = await axios.get(`${baseUrl}/matches/get-seats/${id}`); // Adjust URL based on your backend
+        const response = await axios.get(`${baseUrl}/matches/get-seats/${id}`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        }); // Adjust URL based on your backend
         setSeatingLayout(response.data);
         setLoading(false);
       } catch (err) {
@@ -56,7 +62,12 @@ const MatchDetails = () => {
     // Listen for seat reservation updates from the server
     socket.on('seat-reserved', async (message) => {
       console.log('Seat reserved event received');
-      const response = await axios.get(`${baseUrl}/matches/get-seats/${id}`); // Adjust URL based on your backend
+      const response = await axios.get(`${baseUrl}/matches/get-seats/${id}`, {
+        headers: {
+          'Content-Type': 'application/json', // Set content type for the request
+          Authorization: `Bearer ${token}`, // Include the token in the request header
+        },
+      }); // Adjust URL based on your backend
       setSeatingLayout(response.data);
     });
 
@@ -109,6 +120,7 @@ const MatchDetails = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Include the token in the request header
           },
         }
       );

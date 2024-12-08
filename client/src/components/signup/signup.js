@@ -22,6 +22,7 @@ const SignUp = () => {
   const [cities, setCities] = useState([]);
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate();
+  const token = authData.token; // Get token from context
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,6 +37,7 @@ const SignUp = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
         body: JSON.stringify(formData),
       });
@@ -68,7 +70,14 @@ const SignUp = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch(`${baseUrl}/auth/cities`);
+        const response = await fetch(`${baseUrl}/auth/cities`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+
+          },
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch cities');
         }

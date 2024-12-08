@@ -19,6 +19,7 @@ const EditProfile = () => {
     address: authData.user.address,
     role: authData.user ? authData.user.userType : 'customer',
   });
+  const token = authData.token; // Get token from context
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -27,7 +28,13 @@ const EditProfile = () => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch(`${baseUrl}/auth/cities`);
+        const response = await fetch(`${baseUrl}/auth/cities`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch cities');
         }
@@ -75,6 +82,7 @@ const EditProfile = () => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
         body: JSON.stringify(formData),
       });

@@ -23,6 +23,7 @@ const CreateStadiumEvent = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const token = authData.token; // Get token from context
 
   // Calculate total seats based on rows and seats per row
   const calculateTotalSeats = () => {
@@ -45,6 +46,7 @@ const CreateStadiumEvent = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
         body: JSON.stringify(formData),
       });

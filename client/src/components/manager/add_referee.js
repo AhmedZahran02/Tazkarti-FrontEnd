@@ -15,6 +15,7 @@ const AddReferee = () => {
     name: '',
     role: '', // Role can be 'Main Referee' or 'Linesman'
   });
+  const token = authData.token; // Get token from context
 
   const [error, setError] = useState(''); // State to store error messages
   const [successMessage, setSuccessMessage] = useState(''); // State for success messages
@@ -44,6 +45,7 @@ const AddReferee = () => {
         {
           headers: {
             'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
           },
         }
       );

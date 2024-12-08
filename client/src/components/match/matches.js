@@ -7,13 +7,19 @@ const Matches = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = authData.token; // Get token from context
 
   // Fetch matches from an API
   useEffect(() => {
     const fetchMatches = async () => {
       try {
         // Replace with your actual API endpoint
-        const response = await axios.get(`${baseUrl}/matches/`); // Adjust URL based on your backend
+        const response = await axios.get(`${baseUrl}/matches/`, {
+          headers: {
+            'Content-Type': 'application/json', // Set content type for the request
+            Authorization: `Bearer ${token}`, // Include the token in the request header
+          },
+        }); // Adjust URL based on your backend
 
         if (response.status !== 200) {
           throw new Error('Failed to fetch matches.');

@@ -15,6 +15,7 @@ const ReservationList = () => {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const token = authData.token; // Get token from context
 
   // Fetch reservations for the logged-in user
   useEffect(() => {
