@@ -15,11 +15,7 @@ router.patch(
   authorizeRoles(["admin"]),
   AuthController.approvNewUser
 );
-router.delete(
-  "/remove/:username",
-
-  AuthController.removeUser
-);
+router.delete("/remove/:username", verifyToken, AuthController.removeUser);
 router.get("/cities", AuthController.getCities);
 
 module.exports = router;

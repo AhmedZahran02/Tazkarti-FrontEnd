@@ -29,11 +29,19 @@ const TicketRouter = require("./routes/ticket");
 const { Server } = require("socket.io");
 
 const app = express();
+const allowedOrigins = ["https://not-tazkarti.vercel.app"];
+
 app.use(
   cors({
-    origin: "*", // Adjust this to the URL of your frontend
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Specify allowed HTTP methods
-    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
+    origin: (origin, callback) => {
+      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        callback(null, true); // Allow the origin
+      } else {
+        callback(new Error("Not allowed by CORS")); // Reject the origin
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Methods allowed
+    allowedHeaders: ["Content-Type", "Authorization"], // Headers allowed
   })
 );
 
