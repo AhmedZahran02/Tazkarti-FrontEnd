@@ -1,0 +1,17 @@
+.reservation-list {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+}

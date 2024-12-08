@@ -1,0 +1,63 @@
+.navbar .navbarlinks {
+  margin-right: auto;
+  margin-left: 12%;
+  display: flex;
+}
+.navbar a {
+  margin: auto;
+  text-decoration: none;
+  color: rgb(63, 63, 63);
+  padding: 6px;
+}
+.navbar a:hover {
+  color: #f1356d;
+}
+
+.navbar {
+  align-items: flex-start;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0px 5px 8px #a09c9c;
+}
+
+.header {
+  flex: auto;
+}
+
+.topArea {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  max-width: 2000px;
+  margin: auto;
+}
+.bottomArea {
+  margin-bottom: 20px;
+}
+
+.logo {
+  margin-left: auto;
+  flex: auto;
+}
+
+#userchar.login {
+  font-size: 35px;
+  width: 45px;
+  height: 45px;
+  background-color: #991049;
+  color: wheat;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.username {
+  margin: 5px;
+}
+
+.username:hover {
+  color: #f1356d;
+  cursor: pointer;
+}
