@@ -5,7 +5,7 @@ import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 import axios from 'axios'; // Import axios for making HTTP requests
 
-const baseUrl = 'http://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
+const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
 
 const UsersList = () => {
   const navigate = useNavigate();
