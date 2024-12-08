@@ -31,19 +31,21 @@ const { Server } = require("socket.io");
 const app = express();
 const allowedOrigins = ["https://not-tazkarti.vercel.app", "*"];
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-        callback(null, true); // Allow the origin
-      } else {
-        callback(new Error("Not allowed by CORS")); // Reject the origin
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Methods allowed
-    allowedHeaders: ["Content-Type", "Authorization"], // Headers allowed
-  })
-);
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  // another common pattern
+  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,OPTIONS,PATCH,DELETE,POST,PUT"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+  next();
+});
 
 const DB = require("./utils/db");
 
