@@ -34,6 +34,7 @@ app.use(
     origin: "*", // Adjust this to the URL of your frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Specify allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
+    credentials: true, // Allow cookies and other credentials
   })
 );
 
