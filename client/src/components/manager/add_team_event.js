@@ -1,54 +1,65 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation after submit
+import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/add_team.css';
 import { AuthContext } from '../context/auth_provider';
-import { useContext } from 'react';
-import { useEffect } from 'react';
 
 const AddTeam = ({ baseUrl }) => {
   const { authData } = useContext(AuthContext);
-  const [teamName, setTeamName] = useState(''); // State for the team name input
-  const [error, setError] = useState(''); // State to store error messages
-  const [successMessage, setSuccessMessage] = useState(''); // State to store success messages
-  const navigate = useNavigate(); // To navigate to a different page after successful submission
-  const token = authData.token; // Get token from context
+  const [teamName, setTeamName] = useState('');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
+  const token = authData.token;
 
-  const handleChange = (e) => {
-    setTeamName(e.target.value); // Update teamName state with the input value
-  };
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // Redirect if the user is not a manager
+      // Allow access for managers
     } else {
-      navigate('/'); // Redirect to login if not authorized
+      navigate('/'); // Redirect to home if not authorized
     }
   }, [authData.user, navigate]);
 
+  const handleChange = (e) => {
+    setTeamName(e.target.value); // Update teamName state
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous error
-    setSuccessMessage(''); // Clear previous success message
+    setError('');
+    setSuccessMessage('');
+
+    // Validation
+    const trimmedName = teamName.trim();
+    if (trimmedName === '') {
+      setError('Team name is required.');
+      return;
+    }
+
+    if (trimmedName.length > 50) {
+      setError('Team name must not exceed 50 characters.');
+      return;
+    }
 
     try {
       const response = await axios.post(
-        `${baseUrl}/team/add`, // Adjust the endpoint to your backend
-        { teamName }, // Send the team name in the request body
+        `${baseUrl}/team/add`,
+        { teamName: trimmedName }, // Trim input before sending
         {
           headers: {
-            'Content-Type': 'application/json', // Set content type for the request
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       if (response.status === 200) {
-        alert('Team added successfully!');
-        setTeamName(''); // Clear the team name input field
+        setSuccessMessage('Team added successfully!');
+        setTeamName(''); // Clear input field
       }
     } catch (error) {
       setError('Error adding team. Please try again.');
-      console.error('Error:', error); // Log the error for debugging
+      console.error('Error:', error); // Log error for debugging
     }
   };
 

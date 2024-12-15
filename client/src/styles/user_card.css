@@ -19,6 +19,12 @@
   font-size: 1.2rem;
 }
 
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
 .user-details p {
   margin: 5px 0;
   color: #555;

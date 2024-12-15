@@ -21,6 +21,14 @@ const Login = ({ baseUrl }) => {
     e.preventDefault();
     setErrors({}); // Clear all previous errors
 
+    // Validate that the fields are not empty
+    if (!formData.credential.trim() || !formData.password.trim()) {
+      setErrors({
+        message: 'Both fields are required.',
+      });
+      return;
+    }
+
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, formData, {
         headers: {

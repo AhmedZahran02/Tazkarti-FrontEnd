@@ -19,6 +19,11 @@
 .form-group {
   margin-bottom: 15px;
 }
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  text-align: center;
+}
 
 .form-group label {
   display: block;

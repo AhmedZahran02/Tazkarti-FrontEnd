@@ -59,7 +59,7 @@ const Header = () => {
         ) : (
           <div className="login">
             {/* <span className="username">{authData["email"][0]}</span> */}
-            <span className="username" id="user-char">
+            <span className="username2" id="user-char">
               {authData.user.name !== null && authData.user.name}
             </span>
             <span className="username" onClick={logOut}>

@@ -32,6 +32,8 @@ const EditMatchEvent = ({ baseUrl }) => {
   const [loadingVenues, setLoadingVenues] = useState(false);
   const [loadingReferees, setLoadingReferees] = useState(false);
   const [error, setError] = useState(null);
+  const [errors, setErrors] = useState(null);
+
   const token = authData.token; // Get token from context
 
   // Fetch match details, referees, teams, and venues from the database
@@ -120,10 +122,40 @@ const EditMatchEvent = ({ baseUrl }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    if (name === 'birthDate') {
+      const selectedDate = new Date(value);
+      const today = new Date();
+      if (selectedDate < today) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          birthDate: 'Birth date cannot be in the past.',
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          birthDate: '', // Clear the error if the date is valid
+        }));
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const selectedDate = new Date(formData.date);
+    const today = new Date();
+    if (selectedDate < today) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        date: 'Birth date cannot be in the past.',
+      }));
+      return;
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        date: '', // Clear the error if the date is valid
+      }));
+    }
     try {
       console.log(formData);
       const response = await fetch(`${baseUrl}/matches/edit`, {
@@ -205,6 +237,7 @@ const EditMatchEvent = ({ baseUrl }) => {
               onChange={handleChange}
               required
             />
+            {errors.date && <p className="error-message">{errors.date}</p>}
           </div>
 
           <div className="form-group">

@@ -20,7 +20,10 @@ const MatchDetails = ({ baseUrl }) => {
 
   const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
-
+  const [errors, setErrors] = useState({
+    cardNumber: '',
+    pin: '',
+  });
   // Use location to get passed state
   const location = useLocation();
   const {
@@ -94,15 +97,36 @@ const MatchDetails = ({ baseUrl }) => {
   const handlePopupClose = () => {
     setShowPopup(false);
     setCardDetails({ cardNumber: '', pin: '' });
+    setErrors({
+      cardNumber: '',
+      pin: '',
+    });
   };
 
   const handleCardDetailsChange = (e) => {
     const { name, value } = e.target;
     setCardDetails({ ...cardDetails, [name]: value });
+    setErrors({ ...errors, [name]: '' });
   };
 
   const handlePaymentSubmit = async () => {
     try {
+      const newErrors = {};
+
+      if (!cardDetails.cardNumber.trim()) {
+        newErrors.cardNumber = 'Card Number cannot be empty.';
+      }
+
+      // Validate PIN
+      if (!cardDetails.pin.trim()) {
+        newErrors.pin = 'PIN cannot be empty.';
+      }
+
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+      }
+
       const requestBody = {
         userId: authData.user._id,
         row: selectedSeat.row,
@@ -220,6 +244,10 @@ const MatchDetails = ({ baseUrl }) => {
                 placeholder="Enter your card number"
               />
             </label>
+            {errors.cardNumber && (
+              <p className="error-message">{errors.cardNumber}</p>
+            )}{' '}
+            {/* Show cardNumber error */}
             <label>
               PIN:
               <input
@@ -230,6 +258,8 @@ const MatchDetails = ({ baseUrl }) => {
                 placeholder="Enter your PIN"
               />
             </label>
+            {errors.pin && <p className="error-message">{errors.pin}</p>}{' '}
+            {/* Show pin error */}
             <button onClick={handlePaymentSubmit} className="submit-button">
               Submit
             </button>

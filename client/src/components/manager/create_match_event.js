@@ -8,6 +8,9 @@ import axios from 'axios'; // Import axios for making HTTP requests
 const CreateMatchEvent = ({ baseUrl }) => {
   const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
+  const [errors, setErrors] = useState({
+    date: '',
+  });
   const [formData, setFormData] = useState({
     homeTeam: '',
     awayTeam: '',
@@ -109,12 +112,30 @@ const CreateMatchEvent = ({ baseUrl }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'date') {
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Replace with your actual backend endpoint
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      if (selectedDate < today) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          date: 'Birth date cannot be in the past.',
+        }));
+        return;
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          date: '', // Clear the error if the date is valid
+        }));
+      }
+
       const response = await axios.post(`${baseUrl}/matches/create`, formData, {
         headers: {
           'Content-Type': 'application/json',
@@ -215,6 +236,7 @@ const CreateMatchEvent = ({ baseUrl }) => {
               onChange={handleChange}
               required
             />
+            {errors.date && <p className="error-message">{errors.date}</p>}
           </div>
 
           <div className="form-group">

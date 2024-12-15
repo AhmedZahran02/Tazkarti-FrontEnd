@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 const EditProfile = ({ baseUrl }) => {
   const { authData, saveAuthData } = useContext(AuthContext);
+
   const [cities, setCities] = useState([]);
   const [errors, setErrors] = useState({}); // State for field-specific error messages
   console.log(authData.user.birthDate);
@@ -71,10 +72,58 @@ const EditProfile = ({ baseUrl }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'birthDate') {
+      const selectedDate = new Date(value);
+      const today = new Date();
+      if (selectedDate < today) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          birthDate: 'Birth date cannot be in the past.',
+        }));
+      } else {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          birthDate: '', // Clear the error if the date is valid
+        }));
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({}); // Clear all previous errors
+
+    // Trim input fields and validate that the fields are not empty or just spaces
+    const trimmedFormData = {
+      ...formData,
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      birthDate: formData.birthDate.trim(),
+      gender: formData.gender.trim(),
+      city: formData.city.trim(),
+    };
+
+    if (
+      !trimmedFormData.firstName ||
+      !trimmedFormData.lastName ||
+      !trimmedFormData.birthDate ||
+      !trimmedFormData.gender ||
+      !trimmedFormData.city
+    ) {
+      const newErrors = {};
+      if (!trimmedFormData.firstName)
+        newErrors.firstName = 'First Name is required.';
+      if (!trimmedFormData.lastName)
+        newErrors.lastName = 'Last Name is required.';
+      if (!trimmedFormData.birthDate)
+        newErrors.birthDate = 'Birth Date is required.';
+      if (!trimmedFormData.gender) newErrors.gender = 'Gender is required.';
+      if (!trimmedFormData.city) newErrors.city = 'City is required.';
+
+      setErrors(newErrors);
+      return;
+    }
     try {
       // API call to update user data (replace with actual API endpoint)
       const response = await fetch(`${baseUrl}/users/update`, {
@@ -108,21 +157,20 @@ const EditProfile = ({ baseUrl }) => {
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={authData.user.username}
-            disabled
-          />
-        </div>
-
-        <div className="form-group">
           <label>Email:</label>
           <input
             type="email"
             name="email"
             value={authData.user.email}
+            disabled
+          />
+        </div>
+        <div className="form-group">
+          <label>Username:</label>
+          <input
+            type="username"
+            name="username"
+            value={authData.user.username}
             disabled
           />
         </div>
@@ -136,6 +184,9 @@ const EditProfile = ({ baseUrl }) => {
             onChange={handleChange}
             required
           />
+          {errors.firstName && (
+            <p className="error-message">{errors.firstName}</p>
+          )}
         </div>
 
         <div className="form-group">
@@ -147,6 +198,9 @@ const EditProfile = ({ baseUrl }) => {
             onChange={handleChange}
             required
           />
+          {errors.lastName && (
+            <p className="error-message">{errors.lastName}</p>
+          )}
         </div>
 
         <div className="form-group">
@@ -158,6 +212,9 @@ const EditProfile = ({ baseUrl }) => {
             onChange={handleChange}
             required
           />
+          {errors.birthDate && (
+            <p className="error-message">{errors.birthDate}</p>
+          )}
         </div>
 
         <div className="form-group">
@@ -171,6 +228,7 @@ const EditProfile = ({ baseUrl }) => {
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
+          {errors.gender && <p className="error-message">{errors.gender}</p>}
         </div>
 
         <div className="form-group">

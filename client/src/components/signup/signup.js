@@ -30,33 +30,77 @@ const SignUp = ({ baseUrl }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({}); // Clear previous error messages
+
+    // Check if any required fields are empty
+    const trimmedFormData = {
+      ...formData,
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      birthDate: formData.birthDate.trim(),
+      gender: formData.gender.trim(),
+      city: formData.city.trim(),
+      email: formData.email.trim(),
+      username: formData.username.trim(),
+    };
+
+    const newErrors = {};
+
+    // Ensure no empty fields
+    Object.keys(trimmedFormData).forEach((key) => {
+      if (!trimmedFormData[key] && key !== 'address') {
+        newErrors[key] = `${key.replace(
+          /([A-Z])/g,
+          ' $1'
+        )}: This field is required.`;
+      }
+    });
+
+    // Ensure username does not contain spaces
+    if (trimmedFormData.username.includes(' ')) {
+      newErrors.username = 'Username cannot contain spaces.';
+    }
+
+    // Ensure the birth date is in the past
+    if (new Date(trimmedFormData.birthDate) >= new Date()) {
+      newErrors.birthDate = 'Birth date must be in the past.';
+    }
+
+    // If there are validation errors, set them and prevent submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    // Proceed with form submission if there are no validation errors
     try {
       const response = await fetch(`${baseUrl}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(trimmedFormData),
       });
 
       if (response.ok) {
         const result = await response.json();
         console.log('Sign-up successful:', result);
-        // Optionally redirect the user to a login or confirmation page
         navigate('/login');
       } else {
         const error = await response.json();
         console.error('Error during sign-up:', error.message);
 
-        // Set error messages for specific fields
-        if (error.message.includes('Missing required fields')) {
-          setErrors(error.details); // Assuming `details` has field-specific errors
-        } else if (error.message.includes('Username already exists')) {
+        // Handle specific error messages
+        if (error.message.includes('Username already exists')) {
           setErrors({ username: 'This username is already taken.' });
         } else if (error.message.includes('Email already exists')) {
           setErrors({ email: 'This email is already registered.' });
-        } else if (error.message.includes('Password is weak')) {
-          setErrors({ password: 'Password must meet the strength criteria.' });
+        } else if (
+          error.message.includes(
+            'Password is weak. It must be 8-20 characters long, contain uppercase, lowercase, and digits, and have no spaces'
+          )
+        ) {
+          setErrors({ password: 'Password is weak.' });
         }
       }
     } catch (error) {
@@ -120,6 +164,10 @@ const SignUp = ({ baseUrl }) => {
           {errors.password && (
             <p className="error-message">{errors.password}</p>
           )}
+          <small>
+            Password must be 8-20 characters long, contain uppercase, lowercase,
+            and digits, and have no spaces
+          </small>
         </div>
 
         <div className="form-group">

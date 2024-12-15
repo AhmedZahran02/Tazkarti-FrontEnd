@@ -7,3 +7,8 @@
   background: #f9f9f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  text-align: center;
+}

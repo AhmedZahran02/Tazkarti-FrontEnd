@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // To redirect after successful submission
-import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
-import { useContext } from 'react';
 import '../../styles/add_referee.css';
 
 const AddReferee = ({ baseUrl }) => {
@@ -11,12 +9,12 @@ const AddReferee = ({ baseUrl }) => {
   const { authData } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: '',
-    role: '', // Role can be 'Main Referee' or 'Linesman'
+    role: '',
   });
-  const token = authData.token; // Get token from context
+  const token = authData.token;
 
-  const [error, setError] = useState(''); // State to store error messages
-  const [successMessage, setSuccessMessage] = useState(''); // State for success messages
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,9 +23,9 @@ const AddReferee = ({ baseUrl }) => {
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // Redirect if the user is not a manager
+      // Allow access for managers only
     } else {
-      navigate('/'); // Redirect to login if not authorized
+      navigate('/'); // Redirect to home if not authorized
     }
   }, [authData.user, navigate]);
 
@@ -36,25 +34,44 @@ const AddReferee = ({ baseUrl }) => {
     setError('');
     setSuccessMessage('');
 
+    // Input validation
+    if (formData.name.trim() === '') {
+      setError('Referee name is required.');
+      return;
+    }
+
+    if (formData.name.trim().length > 40) {
+      setError('Referee name must not exceed 40 characters.');
+      return;
+    }
+
+    if (formData.role.trim() === '') {
+      setError('Role is required.');
+      return;
+    }
+
     try {
       const response = await axios.post(
-        `${baseUrl}/referee/add`, // Adjust this endpoint to your backend
-        formData,
+        `${baseUrl}/referee/add`,
+        {
+          ...formData,
+          name: formData.name.trim(), // Trim extra spaces before sending
+        },
         {
           headers: {
-            'Content-Type': 'application/json', // Set content type for the request
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       if (response.status === 200) {
-        alert('Referee added successfully!');
-        setFormData({ name: '', role: '' }); // Clear the input fields
+        setSuccessMessage('Referee added successfully!');
+        setFormData({ name: '', role: '' }); // Clear the form
       }
     } catch (error) {
       setError('Error adding referee. Please try again.');
-      console.error('Error:', error); // Log the error for debugging
+      console.error('Error:', error);
     }
   };
 

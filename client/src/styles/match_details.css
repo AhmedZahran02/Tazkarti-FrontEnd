@@ -18,6 +18,7 @@
   align-items: center;
   display: flex;
 }
+
 .seat-row {
   display: grid;
   grid-template-columns: repeat(
@@ -62,7 +63,6 @@ button:disabled {
 .match-details p {
   margin: 5px 0;
   font-size: 1rem;
-  color: #555;
 }
 .popup {
   position: fixed;
@@ -132,4 +132,10 @@ button:disabled {
 
 .cancel-button:hover {
   background: #c82333;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  text-align: center;
 }

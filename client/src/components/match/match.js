@@ -18,6 +18,11 @@ const Match = ({
   const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
 
+  // Parse the match date for comparison
+  const matchDate = new Date(date);
+  const currentDate = new Date();
+  const isPastMatch = matchDate < currentDate;
+
   // Handle booking a ticket (only for fans)
   const handleBookTicket = () => {
     if (authData.user && authData.user.userType === 'fan') {
@@ -106,12 +111,17 @@ const Match = ({
             : 'visible'
         }
         onClick={handleBookTicket}
+        disabled={isPastMatch} // Disable if the match is in the past
       >
         Book Ticket
       </button>
 
       {/* View Details Button */}
-      <button onClick={handleViewMatch} className="view-details-button">
+      <button
+        onClick={handleViewMatch}
+        className="view-details-button"
+        disabled={isPastMatch} // Disable if the match is in the past
+      >
         View Details
       </button>
 
@@ -122,6 +132,7 @@ const Match = ({
             ? 'visible'
             : 'hidden'
         }
+        disabled={isPastMatch} // Disable if the match is in the past
         onClick={handleEditMatch}
       >
         Edit Match

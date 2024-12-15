@@ -1,50 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../../styles/create_stadium_event.css';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
-import { useContext } from 'react';
-import { useEffect } from 'react';
 
 const CreateStadiumEvent = ({ baseUrl }) => {
   const navigate = useNavigate();
-  const { authData, clearAuthData, saveAuthData } = useContext(AuthContext);
+  const { authData } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     stadiumName: '',
-    length: '', // For number of rows (length of VIP lounge)
-    width: '', // For number of seats per row (width of VIP lounge)
-    numberOfSeats: '', // Total number of seats (calculated)
+    length: '', // Number of rows
+    width: '', // Seats per row
+    numberOfSeats: '', // Calculated total seats
   });
+  const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const token = authData.token;
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  const token = authData.token; // Get token from context
 
-  // Calculate total seats based on rows and seats per row
+    // Update formData and reset error
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setError(''); // Clear error when user updates the input
+  };
+
   const calculateTotalSeats = () => {
     const { length, width } = formData;
-    if (length && width) {
+    if (length > 0 && width > 0) {
       const numberOfSeats = parseInt(length) * parseInt(width);
-      setFormData((prevData) => ({
-        ...prevData,
-        numberOfSeats: numberOfSeats,
-      }));
+      setFormData((prev) => ({ ...prev, numberOfSeats }));
+    } else {
+      setError('Rows and seats per row must be greater than zero.');
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccessMessage('');
+
+    // Ensure inputs are valid
+    const { stadiumName, length, width } = formData;
+    if (!stadiumName.trim()) {
+      setError('Stadium name is required.');
+      return;
+    }
+    if (length <= 0 || width <= 0) {
+      setError('Rows and seats per row must be greater than zero.');
+      return;
+    }
+
     try {
-      // API call to save stadium data (replace with actual API endpoint)
       const response = await fetch(`${baseUrl}/stadium/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the request header
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -58,22 +69,25 @@ const CreateStadiumEvent = ({ baseUrl }) => {
           numberOfSeats: '',
         });
       } else {
-        setSuccessMessage('Failed to add stadium.');
+        setError('Failed to add stadium. Please try again.');
       }
-    } catch (error) {
-      setSuccessMessage('Error occurred. Please try again.');
+    } catch (err) {
+      setError('An error occurred. Please try again.');
     }
   };
+
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // Redirect to homepage if the user is already logged in
+      // User is authorized
     } else {
       navigate('/');
     }
   }, [authData.user, navigate]);
+
   return (
     <div className="create-stadium">
       <h2>Create New Stadium</h2>
+      {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -84,6 +98,7 @@ const CreateStadiumEvent = ({ baseUrl }) => {
             value={formData.stadiumName}
             onChange={handleChange}
             required
+            placeholder="Enter stadium name"
           />
         </div>
 
@@ -96,6 +111,8 @@ const CreateStadiumEvent = ({ baseUrl }) => {
             onChange={handleChange}
             onBlur={calculateTotalSeats}
             required
+            min="1"
+            placeholder="Enter number of rows"
           />
         </div>
 
@@ -108,6 +125,8 @@ const CreateStadiumEvent = ({ baseUrl }) => {
             onChange={handleChange}
             onBlur={calculateTotalSeats}
             required
+            min="1"
+            placeholder="Enter seats per row"
           />
         </div>
 
@@ -118,6 +137,7 @@ const CreateStadiumEvent = ({ baseUrl }) => {
             name="numberOfSeats"
             value={formData.numberOfSeats}
             readOnly
+            placeholder="Calculated automatically"
           />
         </div>
 

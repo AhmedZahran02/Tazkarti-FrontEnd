@@ -15,3 +15,8 @@ p {
   font-size: 1.2rem;
   color: #666;
 }
+.error-message {
+  color: #dc3545;
+  font-size: 0.875rem;
+  text-align: center;
+}
