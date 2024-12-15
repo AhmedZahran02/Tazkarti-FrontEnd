@@ -5,9 +5,8 @@ import '../../styles/add_team.css';
 import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 import { useEffect } from 'react';
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
 
-const AddTeam = () => {
+const AddTeam = ({ baseUrl }) => {
   const { authData } = useContext(AuthContext);
   const [teamName, setTeamName] = useState(''); // State for the team name input
   const [error, setError] = useState(''); // State to store error messages

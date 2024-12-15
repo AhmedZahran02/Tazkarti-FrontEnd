@@ -7,9 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client'; // Import socket.io-client
 
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL for your backend
-
-const ReservationList = () => {
+const ReservationList = ({ baseUrl }) => {
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate();
 

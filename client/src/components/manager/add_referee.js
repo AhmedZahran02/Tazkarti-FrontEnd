@@ -6,9 +6,7 @@ import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 import '../../styles/add_referee.css';
 
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust to your backend URL
-
-const AddReferee = () => {
+const AddReferee = ({ baseUrl }) => {
   const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
   const [formData, setFormData] = useState({

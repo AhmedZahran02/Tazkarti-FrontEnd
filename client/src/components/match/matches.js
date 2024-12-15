@@ -3,9 +3,8 @@ import Match from './match';
 import axios from 'axios';
 import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
 
-const Matches = () => {
+const Matches = ({ baseUrl }) => {
   const { authData } = useContext(AuthContext);
 
   const [matches, setMatches] = useState([]);

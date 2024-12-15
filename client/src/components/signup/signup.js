@@ -3,9 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../../styles/signup.css';
 import { AuthContext } from '../context/auth_provider';
 
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app';
-
-const SignUp = () => {
+const SignUp = ({ baseUrl }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -37,7 +35,6 @@ const SignUp = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
         body: JSON.stringify(formData),
       });

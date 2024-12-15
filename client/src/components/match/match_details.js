@@ -6,9 +6,7 @@ import '../../styles/match_details.css'; // Add styles for the component
 import axios from 'axios';
 import { io } from 'socket.io-client'; // Import socket.io-client
 
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app'; // Adjust the base URL to your backend
-
-const MatchDetails = () => {
+const MatchDetails = ({ baseUrl }) => {
   const { id } = useParams(); // Extract match ID from the URL
   const [seatingLayout, setSeatingLayout] = useState(null); // Store seating layout data
   const [loading, setLoading] = useState(true);

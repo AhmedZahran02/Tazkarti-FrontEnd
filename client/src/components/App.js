@@ -19,6 +19,8 @@ import ReservationList from './customer/reservation_card_list';
 import AddTeam from './manager/add_team_event';
 import AddReferee from './manager/add_referee';
 import { Helmet } from 'react-helmet';
+const baseUrl = 'https://not-tazkarti-back-production.up.railway.app';
+// const baseUrl = 'http://localhost:8080';
 
 function App() {
   // const { authData, clearAuthData, saveAuthData } = useContext(AuthContext);
@@ -49,23 +51,44 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<UsersList />} />
+            <Route path="/admin" element={<UsersList baseUrl={baseUrl} />} />
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login baseUrl={baseUrl} />} />
+            <Route path="/signup" element={<SignUp baseUrl={baseUrl} />} />
 
-            <Route path="/matches" element={<Matches />} />
-            <Route path="/create-match" element={<CreateMatchEvent />} />
-            <Route path="/create-stadium" element={<CreateStadiumEvent />} />
-            <Route path="/add-team" element={<AddTeam />} />
-            <Route path="/add-referee" element={<AddReferee />} />
+            <Route path="/matches" element={<Matches baseUrl={baseUrl} />} />
+            <Route
+              path="/create-match"
+              element={<CreateMatchEvent baseUrl={baseUrl} />}
+            />
+            <Route
+              path="/create-stadium"
+              element={<CreateStadiumEvent baseUrl={baseUrl} />}
+            />
+            <Route path="/add-team" element={<AddTeam baseUrl={baseUrl} />} />
+            <Route
+              path="/add-referee"
+              element={<AddReferee baseUrl={baseUrl} />}
+            />
 
-            <Route path="/edit-match/:id" element={<EditMatchEvent />} />
+            <Route
+              path="/edit-match/:id"
+              element={<EditMatchEvent baseUrl={baseUrl} />}
+            />
 
-            <Route path="/match-details/:id" element={<MatchDetails />} />
+            <Route
+              path="/match-details/:id"
+              element={<MatchDetails baseUrl={baseUrl} />}
+            />
 
-            <Route path="/profile" element={<EditProfile />} />
-            <Route path="/tickets" element={<ReservationList />} />
+            <Route
+              path="/profile"
+              element={<EditProfile baseUrl={baseUrl} />}
+            />
+            <Route
+              path="/tickets"
+              element={<ReservationList baseUrl={baseUrl} />}
+            />
           </Routes>
           <Footer />
         </div>

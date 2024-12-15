@@ -3,9 +3,8 @@ import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 import '../../styles/edit_profile.css';
 import { useNavigate } from 'react-router-dom';
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app';
 
-const EditProfile = () => {
+const EditProfile = ({ baseUrl }) => {
   const { authData, saveAuthData } = useContext(AuthContext);
   const [cities, setCities] = useState([]);
   const [errors, setErrors] = useState({}); // State for field-specific error messages

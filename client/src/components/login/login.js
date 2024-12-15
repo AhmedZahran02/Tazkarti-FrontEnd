@@ -4,9 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import '../../styles/login.css';
 import { AuthContext } from '../context/auth_provider';
 
-const baseUrl = 'https://not-tazkarti-back-production.up.railway.app';
-
-const Login = () => {
+const Login = ({ baseUrl }) => {
   const [formData, setFormData] = useState({ credential: '', password: '' }); // Credential can be email or username
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -27,7 +25,6 @@ const Login = () => {
       const response = await axios.post(`${baseUrl}/auth/login`, formData, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the request header
         },
         withCredentials: true, // Include this if your backend uses cookies for authentication
       });
