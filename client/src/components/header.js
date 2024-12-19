@@ -30,7 +30,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="topArea">
+      <div className="topArea flex items-center pr-12 justify-between overflow-hidden">
         <div className="logo">
           <Link title="Tazkarti" to="/">
             <img src={logo} alt="Tazkarti Logo" width={130} height={130} />
@@ -38,17 +38,22 @@ const Header = () => {
         </div>
 
         {authData.user === null ? (
-          <div className="login">
+          <div className="login h-3/4 flex items-center gap-5">
             <span
-              className="username"
+              className="username h-full bg-primary flex items-center
+              hover:cursor-pointer hover:bg-primary/80
+              text-white p-4 px-12 rounded-xl transition-all"
               onClick={() => {
                 navigate('/login');
               }}
             >
               Login
             </span>
+
             <span
-              className="username"
+              className="username h-full bg-primary flex items-center
+              hover:cursor-pointer hover:bg-primary/80
+              text-white p-4 px-12 rounded-xl transition-all"
               onClick={() => {
                 navigate('/SignUp');
               }}
@@ -57,12 +62,22 @@ const Header = () => {
             </span>
           </div>
         ) : (
-          <div className="login">
-            {/* <span className="username">{authData["email"][0]}</span> */}
-            <span className="username2" id="user-char">
+          <div className="login h-3/4 flex items-center gap-5">
+            <span
+              className="username h-full bg-primary flex items-center
+              hover:cursor-pointer hover:bg-primary/80
+              text-white p-4 px-12 rounded-xl transition-all"
+              id="user-char"
+            >
               {authData.user.name !== null && authData.user.name}
             </span>
-            <span className="username" onClick={logOut}>
+
+            <span
+              className="username h-full bg-primary flex items-center
+              hover:cursor-pointer hover:bg-primary/80
+              text-white p-4 px-12 rounded-xl transition-all"
+              onClick={logOut}
+            >
               Log Out
             </span>
           </div>

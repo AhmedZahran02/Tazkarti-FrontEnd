@@ -31,20 +31,14 @@
 }
 
 .topArea {
-  display: flex;
   align-items: center;
   height: 60px;
   max-width: 2000px;
-  margin: auto;
 }
 .bottomArea {
   margin-bottom: 20px;
 }
 
-.logo {
-  margin-left: auto;
-  flex: auto;
-}
 
 #userchar.login {
   font-size: 35px;
@@ -58,14 +52,6 @@
   align-items: center;
 }
 
-.username {
-  margin: 5px;
-}
-
-.username:hover {
-  color: #f1356d;
-  cursor: pointer;
-}
 
 .username2 {
   margin: 5px;

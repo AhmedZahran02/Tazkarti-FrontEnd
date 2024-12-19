@@ -4,7 +4,7 @@ import { AuthProvider } from './context/auth_provider';
 import Header from './header';
 import Matches from './match/matches';
 import MatchDetails from './match/match_details';
-import Footer from './footer';
+import Footer from './Footer';
 import Home from './home/home';
 import React, { useState, useEffect } from 'react';
 import { AuthContext } from './context/auth_provider';
@@ -23,17 +23,6 @@ const baseUrl = 'https://not-tazkarti-back-production.up.railway.app';
 // const baseUrl = 'http://localhost:8080';
 
 function App() {
-  // const { authData, clearAuthData, saveAuthData } = useContext(AuthContext);
-
-  // useEffect(() => {
-  //   const ls = { ...localStorage };
-
-  //   console.log(ls);
-  //   if (Object.keys(ls).length !== 0) {
-  //     setAuth(ls);
-  //   }
-  // }, []);
-
   return (
     <Router>
       <AuthProvider>
@@ -49,6 +38,7 @@ function App() {
           </Helmet>
 
           <Header />
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/admin" element={<UsersList baseUrl={baseUrl} />} />
@@ -90,7 +80,14 @@ function App() {
               element={<ReservationList baseUrl={baseUrl} />}
             />
           </Routes>
-          <Footer />
+
+          <div className="container relative bottom-0">
+            <div className="textblock">
+              <h2 id="imagetext">Contact US</h2>
+              <p id="footertext">Phone Number: 123456789</p>
+              <p id="footertext">Email: NotTazkarti@gmail.com</p>
+            </div>
+          </div>
         </div>
       </AuthProvider>
     </Router>

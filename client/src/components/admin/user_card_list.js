@@ -98,18 +98,21 @@ const UsersList = ({ baseUrl }) => {
   }, [authData.user, authData.token, navigate]);
 
   return (
-    <div>
-      <h2>User Management</h2>
+    <div className=''>
+      <h2 className='text-3xl text-primary'>User Management</h2>
 
       {/* Filter Dropdown */}
-      <div style={{ marginBottom: '15px' }}>
-        <label htmlFor="filter" style={{ marginRight: '10px' }}>
+      <div className='m-10 mt-2'>
+        <label htmlFor="filter" 
+        className='text-xl text-primary'
+        style={{ marginRight: '10px' }}>
           Filter Users:
         </label>
         <select
           id="filter"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
+          className='p-4'
         >
           <option value="all">All Users</option>
           <option value="approval">Waiting for Approval</option>
@@ -117,19 +120,21 @@ const UsersList = ({ baseUrl }) => {
         </select>
       </div>
 
-      {/* User Cards */}
-      {filteredUsers.length > 0 ? (
-        filteredUsers.map((user) => (
-          <UserCard
-            key={user._id} // Changed to use _id as the unique key
-            user={user}
-            onApprove={handleApprove}
-            onDelete={handleDelete}
-          />
-        ))
-      ) : (
-        <p>No users found.</p>
-      )}
+      <div className='grid grid-cols-12 gap-5 m-10'>
+        {/* User Cards */}
+        {filteredUsers.length > 0 ? (
+          filteredUsers.map((user) => (
+            <UserCard
+              key={user._id} // Changed to use _id as the unique key
+              user={user}
+              onApprove={handleApprove}
+              onDelete={handleDelete}
+            />
+          ))
+        ) : (
+          <p className='col-span-12'>No users found.</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 
+import {Timer, Calendar, Stadium} from 'lucide-react'
+
 const Match = ({
   id,
   teamA,
@@ -83,60 +85,120 @@ const Match = ({
   };
 
   return (
-    <div className="match-container">
-      <div className="match-teams">
-        <div className="team">
-          <h2>{teamA.name}</h2>
-        </div>
-        <div className="versus">VS</div>
-        <div className="team">
-          <h2>{teamB.name}</h2>
-        </div>
-      </div>
+    <div className="match-container flex flex-col gap-5">
+      <table className="w-full table-fixed border-collapse">
+        <tr className="*:text-xl *:font-bold">
+          <td>{teamA.name}</td>
+          <td>vs</td>
+          <td>{teamB.name}</td>
+        </tr>
+      </table>
+      <hr className="my-2"></hr>
 
-      <div className="match-info">
-        <p>Date: {date}</p>
-        <p>Time: {time}</p>
-        <p>Venue: {venue.name}</p>
-        <p>Main Referee: {mainReferee.name}</p>
-        <p>First Linesman: {firstLinesman.name}</p>
-        <p>Second Linesman: {secondLinesman.name}</p>
-      </div>
+      <table className="w-3/4 m-auto table-fixed border-collapse">
+        <tr className="">
+          <th className="flex gap-2">
+            {' '}
+            <Calendar /> Date
+          </th>
+          <td>{date}</td>
+        </tr>
+
+        <div className="my-2"></div>
+
+        <tr className="">
+          <th className="flex gap-2">
+            {' '}
+            <Timer /> Time
+          </th>
+          <td>{time}</td>
+        </tr>
+
+        <div className="my-2"></div>
+
+        <tr className="">
+          <th className="flex gap-2">
+            <img src="stadium.jpg" alt="stadium-icon" width={20} height={20} />{' '}
+            Venue
+          </th>
+          <td>{venue.name}</td>
+        </tr>
+
+        <div className="my-2"></div>
+
+        <tr className="">
+          <th className="flex gap-2">
+            <img src="referee.png" alt="stadium-icon" width={20} height={20} />
+            Main Referee
+          </th>
+          <td>{mainReferee.name}</td>
+        </tr>
+
+        <div className="my-2"></div>
+
+        <tr className="">
+          <th className="flex gap-2">
+            {' '}
+            <img
+              src="referee.png"
+              alt="stadium-icon"
+              width={20}
+              height={20}
+            />{' '}
+            First Linesman
+          </th>
+          <td>{firstLinesman.name}</td>
+        </tr>
+
+        <div className="my-2"></div>
+
+        <tr className="">
+          <th className="flex gap-2">
+            <img src="referee.png" alt="referee-icon" width={20} height={20} />{' '}
+            Second Linesman
+          </th>
+          <td>{secondLinesman.name}</td>
+        </tr>
+      </table>
 
       {/* Book Ticket Button (Visible for fans only) */}
-      <button
-        className={
-          authData.user && authData.user.userType === 'manager'
-            ? 'hidden'
-            : 'visible'
-        }
-        onClick={handleBookTicket}
-        disabled={isPastMatch} // Disable if the match is in the past
-      >
-        Book Ticket
-      </button>
+      { !isPastMatch && <div className="w-full flex flex-row h-10">
+        {!isPastMatch && (
+          <button
+            className={`${
+              authData.user && authData.user.userType === 'manager'
+                ? 'hidden'
+                : 'visible'
+            } w-[48%] mr-[1%] border-2 border-primary bg-primary text-white`}
+            onClick={handleBookTicket}
+            disabled={isPastMatch} // Disable if the match is in the past
+          >
+            Book Ticket
+          </button>
+        )}
 
-      {/* View Details Button */}
-      <button
-        onClick={handleViewMatch}
-        className="view-details-button"
-        disabled={isPastMatch} // Disable if the match is in the past
-      >
-        View Details
-      </button>
+        {/* View Details Button */}
+        {!isPastMatch && <button
+          onClick={handleViewMatch}
+          className="view-details-button flex-1"
+          disabled={isPastMatch} // Disable if the match is in the past
+        >
+          View Details
+        </button>}
 
-      {/* Edit Match Button (Visible for managers only) */}
-      <button
-        className={
-          authData.user && authData.user.userType === 'manager'
-            ? 'visible'
-            : 'hidden'
-        }
-        disabled={isPastMatch} // Disable if the match is in the past
-        onClick={handleEditMatch}
-      >
-        Edit Match
-      </button>
+        {/* Edit Match Button (Visible for managers only) */}
+        <button
+          className={
+            authData.user && authData.user.userType === 'manager'
+              ? 'visible flex-1'
+              : 'hidden flex-1'
+          }
+          disabled={isPastMatch} // Disable if the match is in the past
+          onClick={handleEditMatch}
+        >
+          Edit Match
+        </button>
+      </div>}
     </div>
   );
 };

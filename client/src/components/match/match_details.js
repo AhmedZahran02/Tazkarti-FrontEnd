@@ -5,6 +5,7 @@ import { useContext } from 'react';
 import '../../styles/match_details.css'; // Add styles for the component
 import axios from 'axios';
 import { io } from 'socket.io-client'; // Import socket.io-client
+import { Timer, Calendar } from 'lucide-react';
 
 const MatchDetails = ({ baseUrl }) => {
   const { id } = useParams(); // Extract match ID from the URL
@@ -183,16 +184,81 @@ const MatchDetails = ({ baseUrl }) => {
   }
 
   return (
-    <div className="match-details">
-      <h2>
-        {teamA.name} vs {teamB.name}
-      </h2>
-      <p>Date: {date}</p>
-      <p>Time: {time}</p>
-      <p>Venue: {venue.name}</p>
-      <p>Main Referee: {mainReferee.name}</p>
-      <p>First Linesman: {firstLinesman.name}</p>
-      <p>Second Linesman: {secondLinesman.name}</p>
+    <div className='match-details'>
+      <div className="match-container flex flex-col gap-5">
+        <table className="w-full table-fixed border-collapse">
+          <tr className="*:text-xl *:font-bold">
+            <td>{teamA.name}</td>
+            <td>vs</td>
+            <td>{teamB.name}</td>
+          </tr>
+        </table>
+
+        <table className="w-3/4 m-auto table-fixed border-collapse">
+          <tr className="">
+            <th className="flex gap-2">
+              {' '}
+              <Calendar /> Date
+            </th>
+            <td>{date}</td>
+          </tr>
+
+          <div className="my-2"></div>
+
+          <tr className="">
+            <th className="flex gap-2">
+              {' '}
+              <Timer /> Time
+            </th>
+            <td>{time}</td>
+          </tr>
+
+          <div className="my-2"></div>
+
+          <tr className="">
+            <th className="flex gap-2">
+              <img src="/stadium.jpg" alt="stadium-icon" width={20} height={20} />{' '}
+              Venue
+            </th>
+            <td>{venue.name}</td>
+          </tr>
+
+          <div className="my-2"></div>
+
+          <tr className="">
+            <th className="flex gap-2">
+              <img src="/referee.png" alt="stadium-icon" width={20} height={20} />
+              Main Referee
+            </th>
+            <td>{mainReferee.name}</td>
+          </tr>
+
+          <div className="my-2"></div>
+
+          <tr className="">
+            <th className="flex gap-2">
+              <img
+                src="/referee.png"
+                alt="stadium-icon"
+                width={20}
+                height={20}
+              />{' '}
+              First Linesman
+            </th>
+            <td>{firstLinesman.name}</td>
+          </tr>
+
+          <div className="my-2"></div>
+
+          <tr className="">
+            <th className="flex gap-2">
+              <img src="/referee.png" alt="referee-icon" width={20} height={20} />{' '}
+              Second Linesman
+            </th>
+            <td>{secondLinesman.name}</td>
+          </tr>
+        </table>
+      </div>
 
       <div className="stadium-graph">
         <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
