@@ -4,7 +4,7 @@ import { AuthProvider } from './context/auth_provider';
 import Header from './header';
 import Matches from './match/matches';
 import MatchDetails from './match/match_details';
-import Footer from './Footer';
+import Footer from './footer';
 import Home from './home/home';
 import React, { useState, useEffect } from 'react';
 import { AuthContext } from './context/auth_provider';

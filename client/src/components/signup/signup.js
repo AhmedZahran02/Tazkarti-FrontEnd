@@ -18,7 +18,7 @@ const SignUp = ({ baseUrl }) => {
   });
   const [errors, setErrors] = useState({}); // State for field-specific error messages
   const [cities, setCities] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate();
   const token = authData.token; // Get token from context
@@ -126,9 +126,8 @@ const SignUp = ({ baseUrl }) => {
       }
     } catch (error) {
       console.error('Network error:', error.message);
-    }
-    finally {
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
