@@ -65,7 +65,7 @@ const Header = () => {
           <div className="login h-3/4 flex items-center gap-5">
             <span
               className="username h-full bg-primary flex items-center
-              hover:cursor-pointer hover:bg-primary/80
+              
               text-white p-4 px-12 rounded-xl transition-all"
               id="user-char"
             >

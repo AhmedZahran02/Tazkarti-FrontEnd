@@ -43,8 +43,13 @@ const Matches = ({ baseUrl }) => {
         //     venue: match.matchVenue.name, // Only get the 'name' field
         //   };
         // });
-
-        setMatches(response.data.matches); // Update the state with filtered matches
+        let matches = response.data.matches
+        matches.sort((a, b) => {
+          let dateA = new Date(`${a.date}T${a.time}`);
+          let dateB = new Date(`${b.date}T${b.time}`);
+          return dateB - dateA;
+        });
+        setMatches(matches); // Update the state with filtered matches
         setLoading(false);
       } catch (err) {
         setError(err.message);
