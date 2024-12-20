@@ -258,40 +258,39 @@ const MatchDetails = ({ baseUrl }) => {
           </tr>
         </table>
       </div>
-      {authData.user && (
-        <div className="stadium-graph">
-          <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
-            Stadium Seating
-          </h3>
-          <div className="seats">
-            {/* Render seats dynamically row by row */}
-            {Array.from(
-              { length: seatingLayout.seats[0].length },
-              (_, colIndex) => (
-                <div key={colIndex} className="seat-row">
-                  {Array.from(
-                    { length: seatingLayout.seats.length },
-                    (_, rowIndex) => (
-                      <button
-                        key={`${colIndex}-${rowIndex}`}
-                        className={`seat ${
-                          seatingLayout.seats[rowIndex][colIndex]
-                            ? 'reserved'
-                            : 'available'
-                        }`}
-                        onClick={() => handleSeatSelection(rowIndex, colIndex)}
-                        disabled={seatingLayout.seats[rowIndex][colIndex]}
-                      >
-                        {rowIndex + 1}-{colIndex + 1}
-                      </button>
-                    )
-                  )}
-                </div>
-              )
-            )}
-          </div>
+
+      <div className="stadium-graph">
+        <h3 style={{ textAlign: 'center', marginBottom: '20px' }}>
+          Stadium Seating
+        </h3>
+        <div className="seats">
+          {/* Render seats dynamically row by row */}
+          {Array.from(
+            { length: seatingLayout.seats[0].length },
+            (_, colIndex) => (
+              <div key={colIndex} className="seat-row">
+                {Array.from(
+                  { length: seatingLayout.seats.length },
+                  (_, rowIndex) => (
+                    <button
+                      key={`${colIndex}-${rowIndex}`}
+                      className={`seat ${
+                        seatingLayout.seats[rowIndex][colIndex]
+                          ? 'reserved'
+                          : 'available'
+                      }`}
+                      onClick={() => handleSeatSelection(rowIndex, colIndex)}
+                      disabled={seatingLayout.seats[rowIndex][colIndex]}
+                    >
+                      {rowIndex + 1}-{colIndex + 1}
+                    </button>
+                  )
+                )}
+              </div>
+            )
+          )}
         </div>
-      )}
+      </div>
 
       {/* Payment Popup */}
       {showPopup && (
