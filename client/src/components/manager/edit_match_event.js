@@ -32,7 +32,9 @@ const EditMatchEvent = ({ baseUrl }) => {
   const [loadingVenues, setLoadingVenues] = useState(false);
   const [loadingReferees, setLoadingReferees] = useState(false);
   const [error, setError] = useState(null);
-  const [errors, setErrors] = useState(null);
+  const [errors, setErrors] = useState({
+    date: null,
+  });
 
   const token = authData.token; // Get token from context
 
