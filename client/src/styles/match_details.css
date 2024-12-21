@@ -119,7 +119,6 @@ button:disabled {
 }
 
 .cancel-button {
-  background: #dc3545;
   color: white;
   border: none;
   padding: 10px 15px;
@@ -129,9 +128,6 @@ button:disabled {
   margin-top: 10px;
 }
 
-.cancel-button:hover {
-  background: #c82333;
-}
 
 .error-message {
   color: #dc3545;

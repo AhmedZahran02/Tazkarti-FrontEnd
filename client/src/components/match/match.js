@@ -180,7 +180,7 @@ const Match = ({
         {/* View Details Button */}
         {!isPastMatch && <button
           onClick={handleViewMatch}
-          className="view-details-button flex-1"
+          className="view-details-button lg:w-[48%]"
           disabled={isPastMatch} // Disable if the match is in the past
         >
           View Details

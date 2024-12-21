@@ -22,7 +22,7 @@ const ReservationCard = ({ reservation, onCancel }) => {
 
   return (
     <div className="reservation-card">
-      <h3>Ticket ID: {reservation.seatId.reservationId}</h3>
+      <h3 className='text-xl text-primary'>Ticket ID: {reservation.seatId.reservationId}</h3>
       <div className="match-details">
         <p>
           <strong>Match:</strong> {reservation.matchId.homeTeam.name} vs{' '}
@@ -44,11 +44,15 @@ const ReservationCard = ({ reservation, onCancel }) => {
       </div>
 
       <button
-        className={canCancel ? 'cancel-button' : 'cancel-button disabled'}
+        className={
+          canCancel
+            ? 'cancel-button bg-primary hover:bg-primary/80'
+            : 'cancel-button disabled bg-primary hover:bg-primary/80'
+        }
         onClick={handleCancel}
         disabled={!canCancel}
       >
-        {canCancel ? 'Cancel Reservation' : 'Cannot Cancel (Less than 3 Days)'}
+        {canCancel ? 'Cancel Reservation' : 'Cannot Cancel'}
       </button>
     </div>
   );
