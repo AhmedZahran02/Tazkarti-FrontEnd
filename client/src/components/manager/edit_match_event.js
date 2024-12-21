@@ -185,7 +185,7 @@ const EditMatchEvent = ({ baseUrl }) => {
 
   return (
     <div className="edit-match-event">
-      <h2>Edit Match Event</h2>
+      <h2 className='text-primary text-2xl'>Edit Match Event</h2>
       {loadingTeams || loadingVenues || loadingReferees ? (
         <p>Loading data...</p>
       ) : error ? (

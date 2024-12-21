@@ -93,7 +93,7 @@ const ReservationList = ({ baseUrl }) => {
 
   return (
     <div className="reservation-list">
-      <h2>Your Reservations</h2>
+      <h2 className='text-3xl text-primary font-bold'>Your Reservations</h2>
       {reservations.length > 0 ? (
         reservations.map((reservation) => (
           <ReservationCard
