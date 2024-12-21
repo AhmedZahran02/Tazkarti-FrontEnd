@@ -14,14 +14,13 @@ const AddTeam = ({ baseUrl }) => {
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // Allow access for managers
     } else {
-      navigate('/'); // Redirect to home if not authorized
+      navigate('/'); 
     }
   }, [authData.user, navigate]);
 
   const handleChange = (e) => {
-    setTeamName(e.target.value); // Update teamName state
+    setTeamName(e.target.value); 
   };
 
   const handleSubmit = async (e) => {
@@ -50,7 +49,7 @@ const AddTeam = ({ baseUrl }) => {
     try {
       const response = await axios.post(
         `${baseUrl}/team/add`,
-        { teamName: trimmedName }, // Trim input before sending
+        { teamName: trimmedName }, 
         {
           headers: {
             'Content-Type': 'application/json',
@@ -61,11 +60,11 @@ const AddTeam = ({ baseUrl }) => {
 
       if (response.status === 200) {
         setSuccessMessage('Team added successfully!');
-        setTeamName(''); // Clear input field
+        setTeamName(''); 
       }
     } catch (error) {
       setError('Error adding team. Please try again.');
-      console.error('Error:', error); // Log error for debugging
+      console.error('Error:', error); 
     }
   };
 

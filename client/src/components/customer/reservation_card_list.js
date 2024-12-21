@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import '../../styles/reservation_card_list.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { io } from 'socket.io-client'; // Import socket.io-client
+import { io } from 'socket.io-client';
 
 const ReservationList = ({ baseUrl }) => {
   const { authData } = useContext(AuthContext);
@@ -16,9 +16,8 @@ const ReservationList = ({ baseUrl }) => {
   const [error, setError] = useState(null);
   const [socket, setSocket] = useState(null);
 
-  const token = authData.token; // Get token from context
+  const token = authData.token;
 
-  // Fetch reservations for the logged-in user
   useEffect(() => {
     const socket = io(baseUrl);
     setSocket(socket);
@@ -26,7 +25,7 @@ const ReservationList = ({ baseUrl }) => {
     const fetchReservations = async () => {
       try {
         if (!authData.user || authData.user.userType !== 'fan') {
-          navigate('/'); // Redirect if the user is not a fan
+          navigate('/');
           return;
         }
 
@@ -70,7 +69,7 @@ const ReservationList = ({ baseUrl }) => {
 
       if (response.status === 200) {
         if (socket) {
-          socket.emit('reserve-seat', 'message'); // Emit the reservation event to the server
+          socket.emit('reserve-seat', 'message');
         }
         setReservations((prevReservations) =>
           prevReservations.filter((res) => res._id !== tickeId)

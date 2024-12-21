@@ -5,18 +5,16 @@ const ReservationCard = ({ reservation, onCancel }) => {
   const [canCancel, setCanCancel] = useState(false);
 
   useEffect(() => {
-    // Calculate if the cancellation is within the allowed period (3 days before the event)
     const eventDate = new Date(reservation.matchId.date);
     const currentDate = new Date();
-    const diffInDays = (eventDate - currentDate) / (1000 * 3600 * 24); // Difference in days
+    const diffInDays = (eventDate - currentDate) / (1000 * 3600 * 24);
 
-    // Set whether the cancellation is allowed (at least 3 days before the event)
     setCanCancel(diffInDays >= 3);
   }, [reservation.matchId.date]);
 
   const handleCancel = () => {
     if (canCancel) {
-      onCancel(reservation._id, reservation.seatId.reservationId); // Notify parent to handle cancellation
+      onCancel(reservation._id, reservation.seatId.reservationId);
     }
   };
 

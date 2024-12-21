@@ -13,18 +13,18 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content bg-white/80 p-8 rounded-2xl ">
-          <h1 className='text-4xl text-primary'>Welcome to Tazkarti</h1>
+          <h1 className="text-4xl text-primary">Welcome to Tazkarti</h1>
           <p className="hero-content text-black">
             Find your perfect matches, book tickets, and enjoy the game!
           </p>
           <Link
             to="/matches"
-            className={
-                ` ${authData.user && authData.user.userType === 'admin'
+            className={` ${
+              authData.user && authData.user.userType === 'admin'
                 ? 'hidden'
-                : 'cta-button'}
-                text-white bg-primary hover:bg-primary/80 transition-all `
+                : 'cta-button'
             }
+                text-white bg-primary hover:bg-primary/80 transition-all `}
           >
             View Matches
           </Link>

@@ -10,46 +10,29 @@ const Matches = ({ baseUrl }) => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = authData.token; // Get token from context
+  const token = authData.token;
 
-  // Fetch matches from an API
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        // Replace with your actual API endpoint
         const response = await axios.get(`${baseUrl}/matches/`, {
           headers: {
-            'Content-Type': 'application/json', // Set content type for the request
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
-        }); // Adjust URL based on your backend
+        });
 
         if (response.status !== 200) {
           throw new Error('Failed to fetch matches.');
         }
 
-        // Filter the response to only include the 'name' field for the nested objects
-        console.log(response.data.matches);
-        // const filteredMatches = response.data.matches.map((match) => {
-        //   return {
-        //     id: match._id,
-        //     date: match.date,
-        //     time: match.time,
-        //     homeTeam: match.homeTeam.name, // Only get the 'name' field
-        //     awayTeam: match.awayTeam.name, // Only get the 'name' field
-        //     mainReferee: match.mainReferee.name, // Only get the 'name' field
-        //     firstLinesman: match.firstLinesman.name, // Only get the 'name' field
-        //     secondLinesman: match.secondLinesman.name, // Only get the 'name' field
-        //     venue: match.matchVenue.name, // Only get the 'name' field
-        //   };
-        // });
-        let matches = response.data.matches
+        let matches = response.data.matches;
         matches.sort((a, b) => {
           let dateA = new Date(`${a.date}T${a.time}`);
           let dateB = new Date(`${b.date}T${b.time}`);
           return dateB - dateA;
         });
-        setMatches(matches); // Update the state with filtered matches
+        setMatches(matches);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -58,7 +41,7 @@ const Matches = ({ baseUrl }) => {
     };
 
     fetchMatches();
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
 
   if (loading) {
     return <p>Loading matches...</p>;

@@ -8,8 +8,7 @@ const EditProfile = ({ baseUrl }) => {
   const { authData, saveAuthData } = useContext(AuthContext);
 
   const [cities, setCities] = useState([]);
-  const [errors, setErrors] = useState({}); // State for field-specific error messages
-  console.log(authData.user.birthDate);
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     firstName: authData.user.firstName,
     lastName: authData.user.lastName,
@@ -19,7 +18,7 @@ const EditProfile = ({ baseUrl }) => {
     address: authData.user.address,
     role: authData.user ? authData.user.userType : 'customer',
   });
-  const token = authData.token; // Get token from context
+  const token = authData.token;
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -32,7 +31,7 @@ const EditProfile = ({ baseUrl }) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!response.ok) {
@@ -40,13 +39,10 @@ const EditProfile = ({ baseUrl }) => {
         }
         const result = await response.json();
         setCities(result.data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
 
     fetchCities();
-    // Initialize form with the current user data
     if (authData.user) {
       setFormData({
         _id: authData.user._id,
@@ -63,7 +59,6 @@ const EditProfile = ({ baseUrl }) => {
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'fan') {
-      // Redirect to homepage if the user is already logged in
     } else {
       navigate('/');
     }
@@ -84,7 +79,7 @@ const EditProfile = ({ baseUrl }) => {
       } else {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          birthDate: '', // Clear the error if the date is valid
+          birthDate: '',
         }));
       }
     }
@@ -92,9 +87,8 @@ const EditProfile = ({ baseUrl }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({}); // Clear all previous errors
+    setErrors({});
 
-    // Trim input fields and validate that the fields are not empty or just spaces
     const trimmedFormData = {
       ...formData,
       firstName: formData.firstName.trim(),
@@ -125,12 +119,11 @@ const EditProfile = ({ baseUrl }) => {
       return;
     }
     try {
-      // API call to update user data (replace with actual API endpoint)
       const response = await fetch(`${baseUrl}/users/update`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the request header
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -152,9 +145,7 @@ const EditProfile = ({ baseUrl }) => {
 
   return (
     <div className="edit-profile">
-      <h2 className='text-primary text-2xl'>
-        Edit Profile
-      </h2>
+      <h2 className="text-primary text-2xl">Edit Profile</h2>
       {successMessage && <p className="success-message">{successMessage}</p>}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -265,7 +256,10 @@ const EditProfile = ({ baseUrl }) => {
           />
         </div>
 
-        <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
+        <button
+          type="submit"
+          className="submit-button bg-primary hover:bg-primary/80"
+        >
           Update Profile
         </button>
       </form>

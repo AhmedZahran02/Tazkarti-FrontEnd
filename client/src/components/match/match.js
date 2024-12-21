@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
 
-import {Timer, Calendar, Stadium} from 'lucide-react'
+import { Timer, Calendar, Stadium } from 'lucide-react';
 
 const Match = ({
   id,
@@ -20,12 +20,10 @@ const Match = ({
   const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
 
-  // Parse the match date for comparison
   const matchDate = new Date(date);
   const currentDate = new Date();
   const isPastMatch = matchDate < currentDate;
 
-  // Handle booking a ticket (only for fans)
   const handleBookTicket = () => {
     if (authData.user && authData.user.userType === 'fan') {
       navigate(`/match-details/${id}`, {
@@ -46,7 +44,6 @@ const Match = ({
     }
   };
 
-  // Handle editing the match (only for managers)
   const handleEditMatch = () => {
     if (authData.user && authData.user.userType === 'manager') {
       navigate(`/edit-match/${id}`, {
@@ -67,7 +64,6 @@ const Match = ({
     }
   };
 
-  // Handle viewing the match details
   const handleViewMatch = () => {
     navigate(`/match-details/${id}`, {
       state: {
@@ -88,9 +84,9 @@ const Match = ({
     <div className="match-container flex flex-col gap-5">
       <table className="w-full table-fixed border-collapse">
         <tr className="*:text-xl *:font-bold">
-          <td className='text-primary'>{teamA.name}</td>
-          <td className='text-primary'>vs</td>
-          <td className='text-primary'>{teamB.name}</td>
+          <td className="text-primary">{teamA.name}</td>
+          <td className="text-primary">vs</td>
+          <td className="text-primary">{teamB.name}</td>
         </tr>
       </table>
       <hr className="my-2"></hr>
@@ -162,43 +158,47 @@ const Match = ({
       </table>
 
       {/* Book Ticket Button (Visible for fans only) */}
-      { !isPastMatch && <div className="w-full flex flex-row gap-5 h-10">
-        {!isPastMatch && (
+      {!isPastMatch && (
+        <div className="w-full flex flex-row gap-5 h-10">
+          {!isPastMatch && (
+            <button
+              className={`${
+                authData.user && authData.user.userType === 'manager'
+                  ? 'hidden'
+                  : 'visible'
+              } lg:w-[48%] mr-[1%] border-2 border-primary bg-primary text-white`}
+              onClick={handleBookTicket}
+              disabled={isPastMatch}
+            >
+              Book Ticket
+            </button>
+          )}
+
+          {/* View Details Button */}
+          {!isPastMatch && (
+            <button
+              onClick={handleViewMatch}
+              className="view-details-button flex-1"
+              disabled={isPastMatch}
+            >
+              View Details
+            </button>
+          )}
+
+          {/* Edit Match Button (Visible for managers only) */}
           <button
-            className={`${
+            className={
               authData.user && authData.user.userType === 'manager'
-                ? 'hidden'
-                : 'visible'
-            } lg:w-[48%] mr-[1%] border-2 border-primary bg-primary text-white`}
-            onClick={handleBookTicket}
-            disabled={isPastMatch} // Disable if the match is in the past
+                ? 'visible flex-1 bg-primary border-black text-white'
+                : 'hidden flex-1 bg-primary border-black text-white'
+            }
+            disabled={isPastMatch}
+            onClick={handleEditMatch}
           >
-            Book Ticket
+            Edit Match
           </button>
-        )}
-
-        {/* View Details Button */}
-        {!isPastMatch && <button
-          onClick={handleViewMatch}
-          className="view-details-button flex-1"
-          disabled={isPastMatch} // Disable if the match is in the past
-        >
-          View Details
-        </button>}
-
-        {/* Edit Match Button (Visible for managers only) */}
-        <button
-          className={
-            authData.user && authData.user.userType === 'manager'
-              ? 'visible flex-1 bg-primary border-black text-white'
-              : 'hidden flex-1 bg-primary border-black text-white'
-          }
-          disabled={isPastMatch} // Disable if the match is in the past
-          onClick={handleEditMatch}
-        >
-          Edit Match
-        </button>
-      </div>}
+        </div>
+      )}
     </div>
   );
 };

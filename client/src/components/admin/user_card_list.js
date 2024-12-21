@@ -3,26 +3,25 @@ import UserCard from './user_card';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios'; 
 
 const UsersList = ({ baseUrl }) => {
   const navigate = useNavigate();
-  const { authData } = useContext(AuthContext); // Get user data from context
+  const { authData } = useContext(AuthContext); 
 
-  const [users, setUsers] = useState([]); // State to store users from backend
-  const [filter, setFilter] = useState('all'); // Filter state
+  const [users, setUsers] = useState([]); 
+  const [filter, setFilter] = useState('all'); 
 
   const handleApprove = async (username) => {
     try {
-      const token = authData.token; // Get token from context
+      const token = authData.token;
 
-      // Make the PATCH request to activate the user
       const response = await axios.patch(
         `${baseUrl}/auth/activate/${username}`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
@@ -42,14 +41,13 @@ const UsersList = ({ baseUrl }) => {
 
   const handleDelete = async (username) => {
     try {
-      const token = authData.token; // Get token from context
+      const token = authData.token; 
 
-      // Make the DELETE request to remove the user
       const response = await axios.delete(
         `${baseUrl}/auth/remove/${username}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
@@ -65,27 +63,24 @@ const UsersList = ({ baseUrl }) => {
     }
   };
 
-  // Filter users based on the selected filter
   const filteredUsers = users.filter((user) => {
     if (filter === 'approval') return !user.isActive;
     if (filter === 'isActive') return user.isActive;
-    return true; // "all"
+    return true; 
   });
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'admin') {
-      // Fetch users from backend if the user is an admin
       const fetchUsers = async () => {
         try {
-          const token = authData.token; // Get token from context
-          // Make request to the backend to get users
+          const token = authData.token; 
           const response = await axios.get(`${baseUrl}/users/get-all`, {
             headers: {
-              Authorization: `Bearer ${token}`, // Attach token to the request
+              Authorization: `Bearer ${token}`, 
             },
           });
 
-          setUsers(response.data.users); // Set the users from the response
+          setUsers(response.data.users); 
         } catch (error) {
           console.error('Error fetching users:', error);
         }
@@ -93,7 +88,7 @@ const UsersList = ({ baseUrl }) => {
 
       fetchUsers();
     } else {
-      navigate('/'); // Redirect if the user is not an admin
+      navigate('/'); 
     }
   }, [authData.user, authData.token, navigate]);
 
@@ -125,7 +120,7 @@ const UsersList = ({ baseUrl }) => {
         {filteredUsers.length > 0 ? (
           filteredUsers.map((user) => (
             <UserCard
-              key={user._id} // Changed to use _id as the unique key
+              key={user._id} 
               user={user}
               onApprove={handleApprove}
               onDelete={handleDelete}

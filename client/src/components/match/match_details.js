@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
-import '../../styles/match_details.css'; // Add styles for the component
+import '../../styles/match_details.css';
 import axios from 'axios';
-import { io } from 'socket.io-client'; // Import socket.io-client
+import { io } from 'socket.io-client';
 import { Timer, Calendar } from 'lucide-react';
 
 const MatchDetails = ({ baseUrl }) => {
-  const { id } = useParams(); // Extract match ID from the URL
-  const [seatingLayout, setSeatingLayout] = useState(null); // Store seating layout data
+  const { id } = useParams();
+  const [seatingLayout, setSeatingLayout] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showPopup, setShowPopup] = useState(false); // Manage popup visibility
-  const [selectedSeat, setSelectedSeat] = useState(null); // Track selected seat
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedSeat, setSelectedSeat] = useState(null);
   const [cardDetails, setCardDetails] = useState({
     cardNumber: '',
     pin: '',
@@ -25,7 +25,6 @@ const MatchDetails = ({ baseUrl }) => {
     cardNumber: '',
     pin: '',
   });
-  // Use location to get passed state
   const location = useLocation();
   const {
     teamA,
@@ -37,17 +36,17 @@ const MatchDetails = ({ baseUrl }) => {
     firstLinesman,
     secondLinesman,
   } = location.state || {};
-  const token = authData.token; // Get token from context
+  const token = authData.token;
 
   useEffect(() => {
     const fetchSeatingLayout = async () => {
       try {
         const response = await axios.get(`${baseUrl}/matches/get-seats/${id}`, {
           headers: {
-            'Content-Type': 'application/json', // Set content type for the request
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
-        }); // Adjust URL based on your backend
+        });
         setSeatingLayout(response.data);
         setLoading(false);
       } catch (err) {
@@ -61,13 +60,11 @@ const MatchDetails = ({ baseUrl }) => {
     const socket = io(baseUrl);
     setSocket(socket);
 
-    // Listen for seat reservation updates from the server
     socket.on('seat-reserved', async (message) => {
-      console.log('Seat reserved event received');
       const response = await axios.get(`${baseUrl}/matches/get-seats/${id}`, {
         headers: {
-          'Content-Type': 'application/json', // Set content type for the request
-          Authorization: `Bearer ${token}`, // Include the token in the request header
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
       }); // Adjust URL based on your backend
       setSeatingLayout(response.data);
@@ -85,7 +82,7 @@ const MatchDetails = ({ baseUrl }) => {
         const seatStatus = seatingLayout.seats[row][col];
         if (!seatStatus) {
           setSelectedSeat({ row: row + 1, column: col + 1 });
-          setShowPopup(true); // Show popup on seat selection
+          setShowPopup(true);
         } else {
           alert(`Seat (Row ${row + 1}, Column ${col + 1}) is reserved.`);
         }
@@ -119,18 +116,18 @@ const MatchDetails = ({ baseUrl }) => {
 
       const regex = /^[0-9]+$/;
       if (!regex.test(cardDetails.cardNumber.trim())) {
-        newErrors.cardNumber = 'Card number can only contain digits characters.';
+        newErrors.cardNumber =
+          'Card number can only contain digits characters.';
       }
 
       if (!regex.test(cardDetails.pin.trim())) {
         newErrors.pin = 'PIN can only contain digits characters.';
       }
 
-      // Validate PIN
       if (!cardDetails.pin.trim()) {
         newErrors.pin = 'PIN cannot be empty.';
       }
-      
+
       if (cardDetails.cardNumber.trim().length != 16) {
         newErrors.cardNumber = 'Card Number must be 16 characters';
       }
@@ -148,7 +145,7 @@ const MatchDetails = ({ baseUrl }) => {
         userId: authData.user._id,
         row: selectedSeat.row,
         column: selectedSeat.column,
-        matchId: id, // Assuming `id` is the match ID from useParams
+        matchId: id,
         cardNumber: cardDetails.cardNumber,
         pinNumber: cardDetails.pin,
       };
@@ -159,32 +156,30 @@ const MatchDetails = ({ baseUrl }) => {
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Include the token in the request header
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       if (response.status === 200) {
-        // Update the seating layout dynamically
-
         setSeatingLayout((prevLayout) => {
           const updatedSeats = [...prevLayout.seats];
-          updatedSeats[selectedSeat.row - 1][selectedSeat.column - 1] = true; // Mark seat as reserved
+          updatedSeats[selectedSeat.row - 1][selectedSeat.column - 1] = true;
           return {
             ...prevLayout,
             seats: updatedSeats,
           };
         });
         if (socket) {
-          socket.emit('reserve-seat', 'message'); // Emit the reservation event to the server
+          socket.emit('reserve-seat', 'message');
         }
         handlePopupClose();
       } else {
         alert(`Error reserving seat: ${response.data.message}`);
       }
-      handlePopupClose(); // Close the popup after submission
+      handlePopupClose();
     } catch (error) {
-      handlePopupClose(); // Close the popup after submission
+      handlePopupClose();
 
       console.error('Error reserving seat:', error);
       alert('An error occurred while reserving the seat. Please try again.');

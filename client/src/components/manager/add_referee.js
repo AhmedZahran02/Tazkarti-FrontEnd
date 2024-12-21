@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
 import '../../styles/add_referee.css';
 
-
 const AddReferee = ({ baseUrl }) => {
   const navigate = useNavigate();
   const { authData } = useContext(AuthContext);
@@ -24,9 +23,8 @@ const AddReferee = ({ baseUrl }) => {
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // Allow access for managers only
     } else {
-      navigate('/'); // Redirect to home if not authorized
+      navigate('/');
     }
   }, [authData.user, navigate]);
 
@@ -35,7 +33,6 @@ const AddReferee = ({ baseUrl }) => {
     setError('');
     setSuccessMessage('');
 
-    // Input validation
     if (formData.name.trim() === '') {
       setError('Referee name is required.');
       return;
@@ -62,7 +59,7 @@ const AddReferee = ({ baseUrl }) => {
         `${baseUrl}/referee/add`,
         {
           ...formData,
-          name: formData.name.trim(), // Trim extra spaces before sending
+          name: formData.name.trim(),
         },
         {
           headers: {
@@ -74,7 +71,7 @@ const AddReferee = ({ baseUrl }) => {
 
       if (response.status === 200) {
         setSuccessMessage('Referee added successfully!');
-        setFormData({ name: '', role: '' }); // Clear the form
+        setFormData({ name: '', role: '' });
       }
     } catch (error) {
       setError('Error adding referee. Please try again.');
@@ -117,7 +114,10 @@ const AddReferee = ({ baseUrl }) => {
         {error && <p className="error-message">{error}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
 
-        <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
+        <button
+          type="submit"
+          className="submit-button bg-primary hover:bg-primary/80"
+        >
           Add Referee
         </button>
       </form>

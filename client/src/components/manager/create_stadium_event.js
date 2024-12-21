@@ -10,7 +10,7 @@ const CreateStadiumEvent = ({ baseUrl }) => {
     stadiumName: '',
     length: '', // Number of rows
     width: '', // Seats per row
-    numberOfSeats: '', // Calculated total seats
+    numberOfSeats: '',
   });
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -19,9 +19,8 @@ const CreateStadiumEvent = ({ baseUrl }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Update formData and reset error
     setFormData((prev) => ({ ...prev, [name]: value }));
-    setError(''); // Clear error when user updates the input
+    setError('');
   };
 
   const calculateTotalSeats = () => {
@@ -39,7 +38,6 @@ const CreateStadiumEvent = ({ baseUrl }) => {
     setError('');
     setSuccessMessage('');
 
-    // Ensure inputs are valid
     const { stadiumName, length, width } = formData;
     if (!stadiumName.trim()) {
       setError('Stadium name is required.');
@@ -48,12 +46,16 @@ const CreateStadiumEvent = ({ baseUrl }) => {
 
     const regex = /^[a-zA-Z0-9\s]+$/;
     if (!regex.test(stadiumName.trim())) {
-      setError('Stadium name can only contain alphabetic or numeric characters.');
+      setError(
+        'Stadium name can only contain alphabetic or numeric characters.'
+      );
       return;
     }
 
-    if ( (length <= 0 || width <= 0) || (length > 50 || width > 50) ) {
-      setError('Rows and seats per row must be greater than zero. and less than 50');
+    if (length <= 0 || width <= 0 || length > 50 || width > 50) {
+      setError(
+        'Rows and seats per row must be greater than zero. and less than 50'
+      );
       return;
     }
 
@@ -85,7 +87,6 @@ const CreateStadiumEvent = ({ baseUrl }) => {
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // User is authorized
     } else {
       navigate('/');
     }
@@ -93,7 +94,7 @@ const CreateStadiumEvent = ({ baseUrl }) => {
 
   return (
     <div className="create-stadium">
-      <h2 className='text-primary text-2xl'>Create New Stadium</h2>
+      <h2 className="text-primary text-2xl">Create New Stadium</h2>
       {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -148,7 +149,10 @@ const CreateStadiumEvent = ({ baseUrl }) => {
           />
         </div>
 
-        <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
+        <button
+          type="submit"
+          className="submit-button bg-primary hover:bg-primary/80"
+        >
           Add Stadium
         </button>
       </form>

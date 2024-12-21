@@ -3,7 +3,7 @@ import '../../styles/create_match_event.css';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/auth_provider';
 import { useContext } from 'react';
-import axios from 'axios'; // Import axios for making HTTP requests
+import axios from 'axios';
 
 const CreateMatchEvent = ({ baseUrl }) => {
   const navigate = useNavigate();
@@ -23,18 +23,17 @@ const CreateMatchEvent = ({ baseUrl }) => {
     secondLinesman: '',
   });
 
-  const [teams, setTeams] = useState([]); // Teams from database
-  const [venues, setVenues] = useState([]); // Venues from database
-  const [referees, setReferees] = useState([]); // All referees from the database
-  const [linesmen, setLinesmen] = useState([]); // Linesmen separately
+  const [teams, setTeams] = useState([]);
+  const [venues, setVenues] = useState([]);
+  const [referees, setReferees] = useState([]);
+  const [linesmen, setLinesmen] = useState([]);
   const [loadingTeams, setLoadingTeams] = useState(false);
   const [loadingVenues, setLoadingVenues] = useState(false);
   const [loadingReferees, setLoadingReferees] = useState(false);
   const [loadingLinesmen, setLoadingLinesmen] = useState(false);
   const [error, setError] = useState(null);
-  const token = authData.token; // Get token from context
+  const token = authData.token;
 
-  // Fetch teams, venues, and referees from the database
   useEffect(() => {
     const fetchTeams = async () => {
       try {
@@ -120,7 +119,6 @@ const CreateMatchEvent = ({ baseUrl }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Replace with your actual backend endpoint
       const selectedDate = new Date(formData.date);
       const today = new Date();
       if (selectedDate < today) {
@@ -132,19 +130,18 @@ const CreateMatchEvent = ({ baseUrl }) => {
       } else {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          date: '', // Clear the error if the date is valid
+          date: '',
         }));
       }
 
       const response = await axios.post(`${baseUrl}/matches/create`, formData, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the request header
+          Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.status === 200) {
-        console.log('Match Event Created:', response.data);
         alert('Match Event Created Successfully!');
         setFormData({
           homeTeam: '',
@@ -170,13 +167,11 @@ const CreateMatchEvent = ({ baseUrl }) => {
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // Redirect if the user is not a manager
     } else {
-      navigate('/'); // Redirect to login if not authorized
+      navigate('/');
     }
   }, [authData.user, navigate]);
 
-  // Filter away teams to exclude the home team
   const filteredAwayTeams = teams.filter(
     (team) => team._id !== formData.homeTeam
   );
@@ -319,7 +314,10 @@ const CreateMatchEvent = ({ baseUrl }) => {
             </select>
           </div>
 
-          <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
+          <button
+            type="submit"
+            className="submit-button bg-primary hover:bg-primary/80"
+          >
             Create Match
           </button>
         </form>

@@ -8,7 +8,6 @@ import axios from 'axios';
 const EditMatchEvent = ({ baseUrl }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const { authData, clearAuthData, saveAuthData } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     _id: location.state.id,
@@ -17,15 +16,15 @@ const EditMatchEvent = ({ baseUrl }) => {
     date: location.state.date,
     time: location.state.time,
     venue: location.state.venue._id,
-    mainReferee: location.state.mainReferee._id, // Add mainReferee
-    firstLinesman: location.state.firstLinesman._id, // Add firstLinesman
-    secondLinesman: location.state.secondLinesman._id, // Add secondLinesman
+    mainReferee: location.state.mainReferee._id,
+    firstLinesman: location.state.firstLinesman._id,
+    secondLinesman: location.state.secondLinesman._id,
   });
 
-  const [teams, setTeams] = useState([]); // Teams from database
-  const [venues, setVenues] = useState([]); // Venues from database
-  const [referees, setReferees] = useState([]); // Referees from the database
-  const [linesmen, setLinesmen] = useState([]); // Linesmen separately
+  const [teams, setTeams] = useState([]);
+  const [venues, setVenues] = useState([]);
+  const [referees, setReferees] = useState([]);
+  const [linesmen, setLinesmen] = useState([]);
   const [loadingLinesmen, setLoadingLinesmen] = useState(false);
 
   const [loadingTeams, setLoadingTeams] = useState(false);
@@ -36,9 +35,8 @@ const EditMatchEvent = ({ baseUrl }) => {
     date: null,
   });
 
-  const token = authData.token; // Get token from context
+  const token = authData.token;
 
-  // Fetch match details, referees, teams, and venues from the database
   useEffect(() => {
     const fetchTeams = async () => {
       try {
@@ -115,9 +113,8 @@ const EditMatchEvent = ({ baseUrl }) => {
 
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
-      // Redirect to homepage if the user is already logged in
     } else {
-      navigate('/'); // Redirect to login if not authorized
+      navigate('/');
     }
   }, [authData.user, navigate]);
 
@@ -135,7 +132,7 @@ const EditMatchEvent = ({ baseUrl }) => {
       } else {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          birthDate: '', // Clear the error if the date is valid
+          birthDate: '',
         }));
       }
     }
@@ -155,16 +152,15 @@ const EditMatchEvent = ({ baseUrl }) => {
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        date: '', // Clear the error if the date is valid
+        date: '',
       }));
     }
     try {
-      console.log(formData);
       const response = await fetch(`${baseUrl}/matches/edit`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the request header
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -322,7 +318,10 @@ const EditMatchEvent = ({ baseUrl }) => {
             </select>
           </div>
 
-          <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
+          <button
+            type="submit"
+            className="submit-button bg-primary hover:bg-primary/80"
+          >
             Update Match
           </button>
         </form>

@@ -16,17 +16,17 @@ const SignUp = ({ baseUrl }) => {
     email: '',
     role: '',
   });
-  const [errors, setErrors] = useState({}); // State for field-specific error messages
+  const [errors, setErrors] = useState({}); 
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(false);
   const { authData } = useContext(AuthContext);
   const navigate = useNavigate();
-  const token = authData.token; // Get token from context
+  const token = authData.token; 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: '' }); // Clear error for the field being edited
+    setErrors({ ...errors, [name]: '' }); 
   };
 
   const fetchCities = async () => {
@@ -35,7 +35,7 @@ const SignUp = ({ baseUrl }) => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`, // Include the token in the request header
+          Authorization: `Bearer ${token}`, 
         },
       });
       if (!response.ok) {
@@ -43,16 +43,13 @@ const SignUp = ({ baseUrl }) => {
       }
       const result = await response.json();
       setCities(result.data);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({}); // Clear previous error messages
+    setErrors({}); 
 
-    // Check if any required fields are empty
     const trimmedFormData = {
       ...formData,
       firstName: formData.firstName.trim(),
@@ -88,13 +85,14 @@ const SignUp = ({ baseUrl }) => {
 
     const regex = /^[a-zA-Z\s]+$/;
     if (!regex.test(trimmedFormData.firstName)) {
-      newErrors.firstName = 'First Name should only contain alphabetic characters.';
+      newErrors.firstName =
+        'First Name should only contain alphabetic characters.';
     }
 
     if (!regex.test(trimmedFormData.lastName)) {
-      newErrors.lastName = 'Last Name should only contain alphabetic characters.';
+      newErrors.lastName =
+        'Last Name should only contain alphabetic characters.';
     }
-
 
     // If there are validation errors, set them and prevent submission
     if (Object.keys(newErrors).length > 0) {
@@ -115,7 +113,6 @@ const SignUp = ({ baseUrl }) => {
 
       if (response.ok) {
         const result = await response.json();
-        console.log('Sign-up successful:', result);
         navigate('/login');
       } else {
         const error = await response.json();
