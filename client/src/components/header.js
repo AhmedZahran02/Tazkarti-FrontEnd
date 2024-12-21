@@ -30,7 +30,7 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="topArea flex items-center pr-12 justify-between overflow-hidden">
+      <div className="topArea flex items-center pr-5 lg:pr-12 justify-between overflow-hidden">
         <div className="logo">
           <Link title="Tazkarti" to="/">
             <img src={logo} alt="Tazkarti Logo" width={130} height={130} />
@@ -64,8 +64,8 @@ const Header = () => {
         ) : (
           <div className="login h-3/4 flex items-center gap-5">
             <span
-              className="username h-full bg-primary flex items-center
-              
+              className="username h-full bg-primary items-center
+              hidden lg:flex cursor-default
               text-white p-4 px-12 rounded-xl transition-all"
               id="user-char"
             >

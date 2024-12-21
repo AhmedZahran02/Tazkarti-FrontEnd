@@ -45,8 +45,15 @@ const CreateStadiumEvent = ({ baseUrl }) => {
       setError('Stadium name is required.');
       return;
     }
-    if (length <= 0 || width <= 0) {
-      setError('Rows and seats per row must be greater than zero.');
+
+    const regex = /^[a-zA-Z0-9\s]+$/;
+    if (!regex.test(stadiumName.trim())) {
+      setError('Stadium name can only contain alphabetic or numeric characters.');
+      return;
+    }
+
+    if ( (length <= 0 || width <= 0) || (length > 50 || width > 50) ) {
+      setError('Rows and seats per row must be greater than zero. and less than 50');
       return;
     }
 
@@ -86,7 +93,7 @@ const CreateStadiumEvent = ({ baseUrl }) => {
 
   return (
     <div className="create-stadium">
-      <h2>Create New Stadium</h2>
+      <h2 className='text-primary text-2xl'>Create New Stadium</h2>
       {error && <p className="error-message">{error}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -141,7 +148,7 @@ const CreateStadiumEvent = ({ baseUrl }) => {
           />
         </div>
 
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
           Add Stadium
         </button>
       </form>

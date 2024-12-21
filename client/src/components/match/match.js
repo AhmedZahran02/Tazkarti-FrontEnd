@@ -88,9 +88,9 @@ const Match = ({
     <div className="match-container flex flex-col gap-5">
       <table className="w-full table-fixed border-collapse">
         <tr className="*:text-xl *:font-bold">
-          <td>{teamA.name}</td>
-          <td>vs</td>
-          <td>{teamB.name}</td>
+          <td className='text-primary'>{teamA.name}</td>
+          <td className='text-primary'>vs</td>
+          <td className='text-primary'>{teamB.name}</td>
         </tr>
       </table>
       <hr className="my-2"></hr>
@@ -162,14 +162,14 @@ const Match = ({
       </table>
 
       {/* Book Ticket Button (Visible for fans only) */}
-      { !isPastMatch && <div className="w-full flex flex-row h-10">
+      { !isPastMatch && <div className="w-full flex flex-row gap-5 h-10">
         {!isPastMatch && (
           <button
             className={`${
               authData.user && authData.user.userType === 'manager'
                 ? 'hidden'
                 : 'visible'
-            } w-[48%] mr-[1%] border-2 border-primary bg-primary text-white`}
+            } lg:w-[48%] mr-[1%] border-2 border-primary bg-primary text-white`}
             onClick={handleBookTicket}
             disabled={isPastMatch} // Disable if the match is in the past
           >
@@ -190,8 +190,8 @@ const Match = ({
         <button
           className={
             authData.user && authData.user.userType === 'manager'
-              ? 'visible flex-1'
-              : 'hidden flex-1'
+              ? 'visible flex-1 bg-primary border-black text-white'
+              : 'hidden flex-1 bg-primary border-black text-white'
           }
           disabled={isPastMatch} // Disable if the match is in the past
           onClick={handleEditMatch}

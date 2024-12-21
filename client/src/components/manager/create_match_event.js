@@ -126,7 +126,7 @@ const CreateMatchEvent = ({ baseUrl }) => {
       if (selectedDate < today) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          date: 'Birth date cannot be in the past.',
+          date: 'Match date cannot be in the past.',
         }));
         return;
       } else {
@@ -158,15 +158,16 @@ const CreateMatchEvent = ({ baseUrl }) => {
           secondLinesman: '',
         });
       } else {
-        alert('Failed to create match event. Please try again.');
+        alert(response.message);
       }
     } catch (error) {
       console.error('Error creating match event:', error);
       alert(
-        'Error creating match event. Please check the input and try again.'
+        'Something Went Wrong, Some Entries Are Assigned To Overlapped Matches'
       );
     }
   };
+
   useEffect(() => {
     if (authData.user && authData.user.userType === 'manager') {
       // Redirect if the user is not a manager
@@ -186,7 +187,7 @@ const CreateMatchEvent = ({ baseUrl }) => {
 
   return (
     <div className="create-match-event">
-      <h2>Create Match Event</h2>
+      <h2 className="text-primary text-2xl">Create Match Event</h2>
       {loadingTeams || loadingVenues || loadingReferees || loadingLinesmen ? (
         <p>Loading data...</p>
       ) : error ? (
@@ -318,7 +319,7 @@ const CreateMatchEvent = ({ baseUrl }) => {
             </select>
           </div>
 
-          <button type="submit" className="submit-button">
+          <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
             Create Match
           </button>
         </form>

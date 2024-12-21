@@ -51,6 +51,12 @@ const AddReferee = ({ baseUrl }) => {
       return;
     }
 
+    const regex = /^[a-zA-Z\s]+$/;
+    if (!regex.test(formData.name.trim())) {
+      setError('Team name can only contain alphabetic characters.');
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${baseUrl}/referee/add`,
@@ -78,7 +84,7 @@ const AddReferee = ({ baseUrl }) => {
 
   return (
     <div className="add-referee">
-      <h2>Add New Referee</h2>
+      <h2 className="text-primary text-2xl">Add New Referee</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="name">Referee Name:</label>
@@ -111,7 +117,7 @@ const AddReferee = ({ baseUrl }) => {
         {error && <p className="error-message">{error}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
 
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
           Add Referee
         </button>
       </form>

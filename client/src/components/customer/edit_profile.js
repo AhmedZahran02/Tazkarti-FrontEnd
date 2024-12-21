@@ -152,7 +152,9 @@ const EditProfile = ({ baseUrl }) => {
 
   return (
     <div className="edit-profile">
-      <h2>Edit Profile</h2>
+      <h2 className='text-primary text-2xl'>
+        Edit Profile
+      </h2>
       {successMessage && <p className="success-message">{successMessage}</p>}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
@@ -208,6 +210,7 @@ const EditProfile = ({ baseUrl }) => {
           <input
             type="date"
             name="birthDate"
+            disabled="true"
             value={formData.birthDate}
             onChange={handleChange}
             required
@@ -221,6 +224,7 @@ const EditProfile = ({ baseUrl }) => {
           <label>Gender:</label>
           <select
             name="gender"
+            disabled="true"
             value={formData.gender}
             onChange={handleChange}
             required
@@ -261,12 +265,7 @@ const EditProfile = ({ baseUrl }) => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Role:</label>
-          <input type="text" name="role" value={formData.role} disabled />
-        </div>
-
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
           Update Profile
         </button>
       </form>

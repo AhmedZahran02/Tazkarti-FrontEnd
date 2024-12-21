@@ -36,6 +36,12 @@ const AddTeam = ({ baseUrl }) => {
       return;
     }
 
+    const regex = /^[a-zA-Z\s]+$/;
+    if (!regex.test(trimmedName)) {
+      setError('Team name can only contain alphabetic characters.');
+      return;
+    }
+
     if (trimmedName.length > 50) {
       setError('Team name must not exceed 50 characters.');
       return;
@@ -65,7 +71,7 @@ const AddTeam = ({ baseUrl }) => {
 
   return (
     <div className="add-team">
-      <h2>Add New Team</h2>
+      <h2 className="text-primary text-2xl">Add New Team</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="teamName">Team Name:</label>
@@ -81,7 +87,7 @@ const AddTeam = ({ baseUrl }) => {
         </div>
         {error && <p className="error-message">{error}</p>}
         {successMessage && <p className="success-message">{successMessage}</p>}
-        <button type="submit" className="submit-button">
+        <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
           Add Team
         </button>
       </form>

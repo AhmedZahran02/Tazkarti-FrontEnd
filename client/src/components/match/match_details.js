@@ -117,9 +117,26 @@ const MatchDetails = ({ baseUrl }) => {
         newErrors.cardNumber = 'Card Number cannot be empty.';
       }
 
+      const regex = /^[0-9]+$/;
+      if (!regex.test(cardDetails.cardNumber.trim())) {
+        newErrors.cardNumber = 'Card number can only contain digits characters.';
+      }
+
+      if (!regex.test(cardDetails.pin.trim())) {
+        newErrors.pin = 'PIN can only contain digits characters.';
+      }
+
       // Validate PIN
       if (!cardDetails.pin.trim()) {
         newErrors.pin = 'PIN cannot be empty.';
+      }
+      
+      if (cardDetails.cardNumber.trim().length != 16) {
+        newErrors.cardNumber = 'Card Number must be 16 characters';
+      }
+
+      if (cardDetails.pin.trim().length != 3) {
+        newErrors.pin = 'PIN must be 3 digits';
       }
 
       if (Object.keys(newErrors).length > 0) {
@@ -183,7 +200,7 @@ const MatchDetails = ({ baseUrl }) => {
   }
 
   return (
-    <div className='match-details'>
+    <div className="match-details">
       <div className="match-container flex flex-col gap-5">
         <table className="w-full table-fixed border-collapse">
           <tr className="*:text-xl *:font-bold">
@@ -216,7 +233,12 @@ const MatchDetails = ({ baseUrl }) => {
 
           <tr className="">
             <th className="flex gap-2">
-              <img src="/stadium.jpg" alt="stadium-icon" width={20} height={20} />{' '}
+              <img
+                src="/stadium.jpg"
+                alt="stadium-icon"
+                width={20}
+                height={20}
+              />{' '}
               Venue
             </th>
             <td>{venue.name}</td>
@@ -226,7 +248,12 @@ const MatchDetails = ({ baseUrl }) => {
 
           <tr className="">
             <th className="flex gap-2">
-              <img src="/referee.png" alt="stadium-icon" width={20} height={20} />
+              <img
+                src="/referee.png"
+                alt="stadium-icon"
+                width={20}
+                height={20}
+              />
               Main Referee
             </th>
             <td>{mainReferee.name}</td>
@@ -251,7 +278,12 @@ const MatchDetails = ({ baseUrl }) => {
 
           <tr className="">
             <th className="flex gap-2">
-              <img src="/referee.png" alt="referee-icon" width={20} height={20} />{' '}
+              <img
+                src="/referee.png"
+                alt="referee-icon"
+                width={20}
+                height={20}
+              />{' '}
               Second Linesman
             </th>
             <td>{secondLinesman.name}</td>
@@ -295,20 +327,19 @@ const MatchDetails = ({ baseUrl }) => {
       {/* Payment Popup */}
       {showPopup && (
         <div className="popup">
-          <div className="popup-content">
+          <div className="popup-content lg:w-1/4">
             <h3>
               Reserve Seat {selectedSeat.row}-{selectedSeat.column}
             </h3>
-            <label>
-              Card Number:
-              <input
-                type="text"
-                name="cardNumber"
-                value={cardDetails.cardNumber}
-                onChange={handleCardDetailsChange}
-                placeholder="Enter your card number"
-              />
-            </label>
+            <label>Card Number:</label>
+            <input
+              type="text"
+              name="cardNumber"
+              className="w-full"
+              value={cardDetails.cardNumber}
+              onChange={handleCardDetailsChange}
+              placeholder="Enter your card number"
+            />
             {errors.cardNumber && (
               <p className="error-message">{errors.cardNumber}</p>
             )}{' '}

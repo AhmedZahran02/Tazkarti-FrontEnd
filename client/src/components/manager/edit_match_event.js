@@ -322,7 +322,7 @@ const EditMatchEvent = ({ baseUrl }) => {
             </select>
           </div>
 
-          <button type="submit" className="submit-button">
+          <button type="submit" className="submit-button bg-primary hover:bg-primary/80">
             Update Match
           </button>
         </form>

@@ -86,6 +86,16 @@ const SignUp = ({ baseUrl }) => {
       newErrors.birthDate = 'Birth date must be in the past.';
     }
 
+    const regex = /^[a-zA-Z\s]+$/;
+    if (!regex.test(trimmedFormData.firstName)) {
+      newErrors.firstName = 'First Name should only contain alphabetic characters.';
+    }
+
+    if (!regex.test(trimmedFormData.lastName)) {
+      newErrors.lastName = 'Last Name should only contain alphabetic characters.';
+    }
+
+
     // If there are validation errors, set them and prevent submission
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
